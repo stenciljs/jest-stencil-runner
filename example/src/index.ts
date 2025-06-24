@@ -10,3 +10,8 @@
 
 export { format } from './utils/utils';
 export type * from './components.d.ts';
+export { Components, JSX } from './components';
+export { MyComponent } from './components/my-component/my-component';
+export { InteractiveButton } from './components/interactive-button/interactive-button';
+export { FormInput } from './components/form-input/form-input';
+export { StatusCard } from './components/status-card/status-card';

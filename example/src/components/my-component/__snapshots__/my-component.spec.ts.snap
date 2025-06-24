@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`my-component renders 1`] = `
+<my-component>
+  <template shadowrootmode="open">
+    <div>
+      Hello, World! I'm
+    </div>
+  </template>
+</my-component>
+`;

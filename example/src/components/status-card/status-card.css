@@ -1,0 +1,92 @@
+.status-card {
+  border: 1px solid;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.status-card--success {
+  background-color: #f0fdf4;
+  border-color: #10b981;
+  color: #065f46;
+}
+
+.status-card--warning {
+  background-color: #fffbeb;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.status-card--error {
+  background-color: #fef2f2;
+  border-color: #ef4444;
+  color: #991b1b;
+}
+
+.status-card--info {
+  background-color: #eff6ff;
+  border-color: #3b82f6;
+  color: #1e40af;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.status-icon {
+  font-size: 1.25rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  flex-grow: 1;
+}
+
+.dismiss-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s ease;
+}
+
+.dismiss-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.card-content {
+  margin-bottom: 0.5rem;
+}
+
+.card-message {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.card-footer {
+  margin-top: 1rem;
+}
+
+.card-footer:empty {
+  display: none;
+}
+
+.status-card--dismissible {
+  position: relative;
+}
