@@ -13,7 +13,6 @@ This package provides a Jest preset and testing utilities specifically designed 
 - 🔧 **TypeScript Support** - Full TypeScript support with proper type definitions
 - 🎨 **Custom Matchers** - Additional Jest matchers for HTML and component testing
 - 📱 **Component Testing** - Test Stencil components in isolation with `newSpecPage()`
-- 🌐 **E2E Testing** - End-to-end testing capabilities with `newE2EPage()`
 
 ## Installation
 
