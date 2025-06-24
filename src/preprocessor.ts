@@ -55,58 +55,45 @@ export const JestStencilPreprocessor: SyncTransformer = {
  * @returns The transpiled code.
  */
 function transpileWithStencil(sourceText: string, sourcePath: string, options: TransformOptions): string {
-  try {
-    const transpileOptions = {
-      file: sourcePath,
-      currentDirectory: options.config.rootDir || process.cwd(),
-      componentMetadata: 'compilerstatic',
-      coreImportPath: '@stencil/core/internal/testing',
-      module: 'cjs', // always use commonjs since we're in a node environment
-      sourceMap: 'inline' as const,
-      styleImportData: 'queryparams',
-      target: 'es2017', // target ES2017 for modern node
-      transformAliasedImportPaths: false,
-    };
+  const transpileOptions = {
+    file: sourcePath,
+    currentDirectory: options.config.rootDir || process.cwd(),
+    componentMetadata: 'compilerstatic',
+    coreImportPath: '@stencil/core/internal/testing',
+    module: 'cjs', // always use commonjs since we're in a node environment
+    sourceMap: 'inline' as const,
+    styleImportData: 'queryparams',
+    target: 'es2017', // target ES2017 for modern node
+    transformAliasedImportPaths: false,
+  };
 
-    const results = transpileSync(sourceText, transpileOptions);
+  const results = transpileSync(sourceText, transpileOptions);
 
-    // Check for errors
-    const hasErrors =
-      results.diagnostics && results.diagnostics.some((diagnostic: any) => diagnostic.level === 'error');
+  // Check for errors
+  const hasErrors = results.diagnostics && results.diagnostics.some((diagnostic: any) => diagnostic.level === 'error');
 
-    if (hasErrors) {
-      const msg = results.diagnostics
-        .map((diagnostic: any) => {
-          let m = '';
-          if (diagnostic.relFilePath) {
-            m += diagnostic.relFilePath;
-            if (typeof diagnostic.lineNumber === 'number') {
-              m += `:${diagnostic.lineNumber + 1}`;
-              if (typeof diagnostic.columnNumber === 'number') {
-                m += `:${diagnostic.columnNumber}`;
-              }
+  if (hasErrors) {
+    const msg = results.diagnostics
+      .map((diagnostic: any) => {
+        let m = '';
+        if (diagnostic.relFilePath) {
+          m += diagnostic.relFilePath;
+          if (typeof diagnostic.lineNumber === 'number') {
+            m += `:${diagnostic.lineNumber + 1}`;
+            if (typeof diagnostic.columnNumber === 'number') {
+              m += `:${diagnostic.columnNumber}`;
             }
-            m += '\n';
           }
-          m += diagnostic.messageText;
-          return m;
-        })
-        .join('\n\n');
-      throw new Error(msg);
-    }
-
-    let code = results.code || sourceText;
-
-    // Ensure ES module imports are converted to CommonJS requires
-    // This fixes issues where Stencil's transpiler sometimes outputs ES modules despite cjs setting
-    code = convertESModulesToCommonJS(code);
-
-    return code;
-  } catch (error) {
-    // Fallback: if Stencil transpiler fails completely, try to convert ES modules to CommonJS manually
-    console.warn(`Stencil transpiler failed for ${sourcePath}, using fallback transformation:`, error);
-    return convertESModulesToCommonJS(sourceText);
+          m += '\n';
+        }
+        m += diagnostic.messageText;
+        return m;
+      })
+      .join('\n\n');
+    throw new Error(msg);
   }
+
+  return results.code || sourceText;
 }
 
 /**
@@ -137,37 +124,6 @@ function isTypeScriptFile(ext: string): boolean {
  */
 function transformCSS(sourceText: string): string {
   return `module.exports = ${JSON.stringify(sourceText)};`;
-}
-
-/**
- * Convert ES module imports to CommonJS requires.
- * This ensures compatibility with Jest when Stencil's transpiler outputs ES modules.
- *
- * @param code - The code to transform.
- * @returns The transformed code with CommonJS requires.
- */
-function convertESModulesToCommonJS(code: string): string {
-  // Convert import statements to require statements
-  // Handle: import Name from "./file.css?tag=name&encapsulation=shadow";
-  code = code.replace(/import\s+(\w+)\s+from\s+["']([^"']+\.css\?[^"']+)["'];?/g, 'const $1 = require("$2");');
-
-  // Handle: import { name } from "./file";
-  code = code.replace(/import\s+\{\s*([^}]+)\s*\}\s+from\s+["']([^"']+)["'];?/g, 'const { $1 } = require("$2");');
-
-  // Handle: import * as name from "./file";
-  code = code.replace(/import\s+\*\s+as\s+(\w+)\s+from\s+["']([^"']+)["'];?/g, 'const $1 = require("$2");');
-
-  // Handle: import name from "./file";
-  code = code.replace(/import\s+(\w+)\s+from\s+["']([^"']+)["'];?/g, 'const $1 = require("$2");');
-
-  // Convert export statements to module.exports
-  // Handle: export { name };
-  code = code.replace(/export\s+\{\s*([^}]+)\s*\};?/g, 'module.exports = { $1 };');
-
-  // Handle: export default name;
-  code = code.replace(/export\s+default\s+([^;]+);?/g, 'module.exports = $1;');
-
-  return code;
 }
 
 // eslint-disable-next-line import/no-default-export
