@@ -1,4 +1,4 @@
-## **0.0.3**&emsp;<sub><sup>2025-06-24 ([c8e5619...a88ad55](https://github.com/stenciljs/sass/compare/c8e56196fe9ede6fc419424e89d7e9c41f80b867...a88ad55798187ac69ba89ae68fbee7c200b11018?diff=split))</sup></sub>
+## **0.0.4**&emsp;<sub><sup>2025-06-24 ([3f9155b...ad5ba82](https://github.com/stenciljs/sass/compare/3f9155bda0712da661c1c20413073582f5f15a27...ad5ba82a4d3b56d72fa3bedede7435d7acb3c62e?diff=split))</sup></sub>
 
 *no relevant changes*
 <br>
