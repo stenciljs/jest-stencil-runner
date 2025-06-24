@@ -1,6 +1,6 @@
 {
   "name": "jest-stencil-runner",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Run tests on Stencil components using Jest.",
   "author": "Christian Bromann <christian.bromann@outsystems.com>",
   "license": "MIT",
