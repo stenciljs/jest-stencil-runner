@@ -35,6 +35,7 @@
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
+    "lint": "eslint src --ext .ts,.tsx",
     "test": "pnpm --filter example test"
   },
   "dependencies": {
