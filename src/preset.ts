@@ -25,7 +25,7 @@ export function createJestStencilPreset(
     testPathIgnorePatterns: ['/.cache', '/.stencil', '/.vscode', '/dist', '/node_modules', '/www'],
     testRegex: `${String.raw`(/__tests__/.*|\.?(test|spec))\.` + moduleExtensionRegexp}$`,
     transform: {
-      '^.+\\.(ts|tsx|jsx|js|mjs|css)$': 'jest-stencil-runner/preprocessor',
+      '^.+\\.(ts|tsx|jsx|js|mjs|css)(\\?.*)?$': 'jest-stencil-runner/preprocessor',
     },
     watchPathIgnorePatterns: [String.raw`^.+\.d\.ts$`],
     collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts', '!src/**/*.spec.{ts,tsx}', '!src/**/*.e2e.{ts,tsx}'],

@@ -1,45 +1,49 @@
 {
   "name": "jest-stencil-runner",
   "version": "0.0.5",
+  "packageManager": "pnpm@10.12.3",
   "description": "Run tests on Stencil components using Jest.",
-  "author": "Christian Bromann <christian.bromann@outsystems.com>",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/stenciljs/jest-stencil-runner.git"
-  },
   "homepage": "https://github.com/stenciljs/jest-stencil-runner",
   "bugs": {
     "url": "https://github.com/stenciljs/jest-stencil-runner/issues"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stenciljs/jest-stencil-runner.git"
+  },
+  "author": "Christian Bromann <christian.bromann@outsystems.com>",
+  "files": [
+    "dist"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
       "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
-      "import": "./dist/preset-export.mjs",
+      "types": "./dist/preset-export.d.ts",
       "require": "./dist/preset-export.js",
-      "types": "./dist/preset-export.d.ts"
+      "import": "./dist/preset-export.mjs"
     },
     "./preprocessor": {
-      "import": "./dist/preprocessor.mjs",
+      "types": "./dist/preprocessor.d.ts",
       "require": "./dist/preprocessor.js",
-      "types": "./dist/preprocessor.d.ts"
+      "import": "./dist/preprocessor.mjs"
     },
     "./setup": {
-      "import": "./dist/setup-entry.mjs",
+      "types": "./dist/setup-entry.d.ts",
       "require": "./dist/setup-entry.js",
-      "types": "./dist/setup-entry.d.ts"
+      "import": "./dist/setup-entry.mjs"
     }
   },
-  "files": [
-    "dist"
-  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
@@ -51,32 +55,37 @@
     "test:lint": "eslint src --ext .ts,.tsx",
     "test:unit": "pnpm --filter example test"
   },
+  "peerDependencies": {
+    "@stencil/core": "^4.35.1",
+    "jest": "^30.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@stencil/core": {
+      "optional": false
+    },
+    "jest": {
+      "optional": false
+    }
+  },
   "dependencies": {
     "@jest/globals": "^30.0.2",
     "@jest/transform": "^30.0.2",
     "@jest/types": "^30.0.1",
-    "@stencil/core": "^4.35.1",
-    "jest": "^30.0.2",
-    "jest-runner": "^30.0.2",
-    "puppeteer": "^24.10.2",
-    "semver": "^7.7.2",
-    "ts-jest": "^29.4.0",
-    "typescript": "^5.8.3"
+    "jest-runner": "^30.0.2"
   },
   "devDependencies": {
     "@ionic/prettier-config": "^4.0.0",
+    "@stencil/core": "^4.35.1",
     "@sxzz/eslint-config": "^7.0.4",
     "@types/jest": "^30.0.0",
     "@types/node": "^22.13.5",
     "@types/semver": "^7.7.0",
     "eslint": "^9.29.0",
+    "jest": "^30.0.2",
     "npm-run-all2": "^8.0.4",
+    "prettier": "^3.6.0",
     "tsdown": "^0.12.8",
     "tsx": "^4.20.3"
   },
-  "packageManager": "pnpm@10.12.3",
-  "prettier": "@ionic/prettier-config",
-  "publishConfig": {
-    "access": "public"
-  }
+  "prettier": "@ionic/prettier-config"
 }
