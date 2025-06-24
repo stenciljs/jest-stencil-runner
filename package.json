@@ -1,0 +1,60 @@
+{
+  "name": "jest-stencil-runner",
+  "version": "0.0.0",
+  "description": "Run tests on Stencil components using Jest.",
+  "author": "Christian Bromann <christian.bromann@outsystems.com>",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./preset": {
+      "import": "./dist/preset-export.mjs",
+      "require": "./dist/preset-export.js",
+      "types": "./dist/preset-export.d.ts"
+    },
+    "./preprocessor": {
+      "import": "./dist/preprocessor-entry.mjs",
+      "require": "./dist/preprocessor-entry.js",
+      "types": "./dist/preprocessor-entry.d.ts"
+    },
+    "./setup": {
+      "import": "./dist/setup-entry.mjs",
+      "require": "./dist/setup-entry.js",
+      "types": "./dist/setup-entry.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "test": "pnpm --filter example test"
+  },
+  "dependencies": {
+    "@jest/transform": "^30.0.2",
+    "@jest/types": "^30.0.1",
+    "@stencil/core": "^4.27.1",
+    "jest": "^30.0.2",
+    "jest-runner": "^30.0.2",
+    "puppeteer": "^24.3.0",
+    "semver": "^7.6.4",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.8.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22.13.5",
+    "@types/semver": "^7.5.8",
+    "eslint": "^9.26.0",
+    "tsdown": "^0.11.9",
+    "tsx": "^4.19.4"
+  },
+  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac"
+}

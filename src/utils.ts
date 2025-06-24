@@ -1,0 +1,308 @@
+import * as d from "@stencil/core/internal";
+import { CMP_FLAGS, LISTENER_FLAGS, MEMBER_FLAGS } from './constants';
+
+/**
+ * Generate a {@link BuildFeatures} entity, based on the provided component metadata
+ * @param cmps a collection of component compiler metadata, used to set values on the generated build features object
+ * @returns the generated build features entity
+ */
+export const getBuildFeatures = (cmps: d.ComponentCompilerMeta[]): d.BuildFeatures => {
+  const slot = cmps.some((c) => c.htmlTagNames.includes('slot'));
+  const shadowDom = cmps.some((c) => c.encapsulation === 'shadow');
+  const slotRelocation = cmps.some((c) => c.encapsulation !== 'shadow' && c.htmlTagNames.includes('slot'));
+  const f: d.BuildFeatures = {
+    allRenderFn: cmps.every((c) => c.hasRenderFn),
+    formAssociated: cmps.some((c) => c.formAssociated),
+
+    element: cmps.some((c) => c.hasElement),
+    event: cmps.some((c) => c.hasEvent),
+    hasRenderFn: cmps.some((c) => c.hasRenderFn),
+    lifecycle: cmps.some((c) => c.hasLifecycle),
+    asyncLoading: true,
+    hostListener: cmps.some((c) => c.hasListener),
+    hostListenerTargetWindow: cmps.some((c) => c.hasListenerTargetWindow),
+    hostListenerTargetDocument: cmps.some((c) => c.hasListenerTargetDocument),
+    hostListenerTargetBody: cmps.some((c) => c.hasListenerTargetBody),
+    hostListenerTargetParent: cmps.some((c) => c.hasListenerTargetParent),
+    hostListenerTarget: cmps.some((c) => c.hasListenerTarget),
+    member: cmps.some((c) => c.hasMember),
+    method: cmps.some((c) => c.hasMethod),
+    mode: cmps.some((c) => c.hasMode),
+    modernPropertyDecls: cmps.some((c) => c.hasModernPropertyDecls),
+    observeAttribute: cmps.some((c) => c.hasAttribute || c.hasWatchCallback),
+    prop: cmps.some((c) => c.hasProp),
+    propBoolean: cmps.some((c) => c.hasPropBoolean),
+    propNumber: cmps.some((c) => c.hasPropNumber),
+    propString: cmps.some((c) => c.hasPropString),
+    propMutable: cmps.some((c) => c.hasPropMutable),
+    reflect: cmps.some((c) => c.hasReflect),
+    scoped: cmps.some((c) => c.encapsulation === 'scoped'),
+    shadowDom,
+    shadowDelegatesFocus: shadowDom && cmps.some((c) => c.shadowDelegatesFocus),
+    slot,
+    slotRelocation,
+    state: cmps.some((c) => c.hasState),
+    style: cmps.some((c) => c.hasStyle),
+    svg: cmps.some((c) => c.htmlTagNames.includes('svg')),
+    updatable: cmps.some((c) => c.isUpdateable),
+    vdomAttribute: cmps.some((c) => c.hasVdomAttribute),
+    vdomXlink: cmps.some((c) => c.hasVdomXlink),
+    vdomClass: cmps.some((c) => c.hasVdomClass),
+    vdomFunctional: cmps.some((c) => c.hasVdomFunctional),
+    vdomKey: cmps.some((c) => c.hasVdomKey),
+    vdomListener: cmps.some((c) => c.hasVdomListener),
+    vdomPropOrAttr: cmps.some((c) => c.hasVdomPropOrAttr),
+    vdomRef: cmps.some((c) => c.hasVdomRef),
+    vdomRender: cmps.some((c) => c.hasVdomRender),
+    vdomStyle: cmps.some((c) => c.hasVdomStyle),
+    vdomText: cmps.some((c) => c.hasVdomText),
+    watchCallback: cmps.some((c) => c.hasWatchCallback),
+    taskQueue: true,
+  };
+  f.vdomAttribute = f.vdomAttribute || f.reflect;
+  f.vdomPropOrAttr = f.vdomPropOrAttr || f.reflect;
+
+  return f;
+};
+
+export const formatLazyBundleRuntimeMeta = (
+  bundleId: any,
+  cmps: d.ComponentCompilerMeta[],
+): d.LazyBundleRuntimeData => {
+  return [bundleId, cmps.map((cmp) => formatComponentRuntimeMeta(cmp, true))];
+};
+
+/**
+ * Transform metadata about a component from the compiler to a compact form for
+ * use at runtime.
+ *
+ * @param compilerMeta component metadata gathered during compilation
+ * @param includeMethods include methods in the component's members or not
+ * @returns a compact format for component metadata, intended for runtime use
+ */
+export const formatComponentRuntimeMeta = (
+  compilerMeta: d.ComponentCompilerMeta,
+  includeMethods: boolean,
+): d.ComponentRuntimeMetaCompact => {
+  let flags = 0;
+  if (compilerMeta.encapsulation === 'shadow') {
+    flags |= CMP_FLAGS.shadowDomEncapsulation;
+    if (compilerMeta.shadowDelegatesFocus) {
+      flags |= CMP_FLAGS.shadowDelegatesFocus;
+    }
+  } else if (compilerMeta.encapsulation === 'scoped') {
+    flags |= CMP_FLAGS.scopedCssEncapsulation;
+  }
+  if (compilerMeta.formAssociated) {
+    flags |= CMP_FLAGS.formAssociated;
+  }
+  if (compilerMeta.encapsulation !== 'shadow' && compilerMeta.htmlTagNames.includes('slot')) {
+    flags |= CMP_FLAGS.hasSlotRelocation;
+  }
+  if (compilerMeta.hasMode) {
+    flags |= CMP_FLAGS.hasMode;
+  }
+
+  const members = formatComponentRuntimeMembers(compilerMeta, includeMethods);
+  const hostListeners = formatHostListeners(compilerMeta);
+  const watchers = formatComponentRuntimeWatchers(compilerMeta);
+  return trimFalsy([
+    flags,
+    compilerMeta.tagName,
+    Object.keys(members).length > 0 ? members : undefined,
+    hostListeners.length > 0 ? hostListeners : undefined,
+    Object.keys(watchers).length > 0 ? watchers : undefined,
+  ]);
+};
+
+export const stringifyRuntimeData = (data: any) => {
+  const json = JSON.stringify(data);
+  if (json.length > 10000) {
+    // JSON metadata is big, JSON.parse() is faster
+    // https://twitter.com/mathias/status/1143551692732030979
+    return `JSON.parse(${JSON.stringify(json)})`;
+  }
+  return json;
+};
+
+/**
+ * Transforms Stencil compiler metadata into a {@link d.ComponentCompilerMeta} object.
+ * This handles processing any compiler metadata transformed from components' uses of `@Watch()`.
+ * The map of watched attributes to their callback(s) will be immediately available
+ * to the runtime at bootstrap.
+ *
+ * @param compilerMeta Component metadata gathered during compilation
+ * @returns An object mapping watched attributes to their respective callback(s)
+ */
+const formatComponentRuntimeWatchers = (compilerMeta: d.ComponentCompilerMeta) => {
+  const watchers: d.ComponentConstructorWatchers = {};
+
+  compilerMeta.watchers.forEach(({ propName, methodName }) => {
+    watchers[propName] = [...(watchers[propName] ?? []), methodName];
+  });
+
+  return watchers;
+};
+
+const formatComponentRuntimeMembers = (
+  compilerMeta: d.ComponentCompilerMeta,
+  includeMethods = true,
+): d.ComponentRuntimeMembers => {
+  return {
+    ...formatPropertiesRuntimeMember(compilerMeta.properties),
+    ...formatStatesRuntimeMember(compilerMeta.states),
+    ...(includeMethods ? formatMethodsRuntimeMember(compilerMeta.methods) : {}),
+  };
+};
+
+const formatPropertiesRuntimeMember = (properties: d.ComponentCompilerProperty[]) => {
+  const runtimeMembers: d.ComponentRuntimeMembers = {};
+
+  properties.forEach((member) => {
+    runtimeMembers[member.name] = trimFalsy([
+      /**
+       * [0] member type
+       */
+      formatFlags(member),
+      formatAttrName(member),
+    ]);
+  });
+  return runtimeMembers;
+};
+
+const formatFlags = (compilerProperty: d.ComponentCompilerProperty) => {
+  let type = formatPropType(compilerProperty.type);
+  if (compilerProperty.mutable) {
+    type |= MEMBER_FLAGS.Mutable;
+  }
+  if (compilerProperty.reflect) {
+    type |= MEMBER_FLAGS.ReflectAttr;
+  }
+  if (compilerProperty.getter) {
+    type |= MEMBER_FLAGS.Getter;
+  }
+  if (compilerProperty.setter) {
+    type |= MEMBER_FLAGS.Setter;
+  }
+  return type;
+};
+
+/**
+ * We mainly add the alternative kebab-case attribute name because it might
+ * be used in an HTML environment (non JSX). Since we support hydration of
+ * complex types we provide a kebab-case attribute name for properties with
+ * these types.
+ */
+const kebabCaseSupportForTypes = ['string', 'unknown'];
+
+const formatAttrName = (compilerProperty: d.ComponentCompilerProperty) => {
+  if (kebabCaseSupportForTypes.includes(typeof compilerProperty.attribute)) {
+    // string attr name means we should observe this attribute
+    if (compilerProperty.name === compilerProperty.attribute) {
+      // property name and attribute name are the exact same
+      // true value means to use the property name for the attribute name
+      return undefined;
+    }
+
+    // property name and attribute name are not the same
+    // so we need to return the actual string value
+    // example: "multiWord" !== "multi-word"
+    return compilerProperty.attribute;
+  }
+
+  // we shouldn't even observe an attribute for this property
+  return undefined;
+};
+
+const formatPropType = (type: d.ComponentCompilerPropertyType) => {
+  if (type === 'string') {
+    return MEMBER_FLAGS.String;
+  }
+  if (type === 'number') {
+    return MEMBER_FLAGS.Number;
+  }
+  if (type === 'boolean') {
+    return MEMBER_FLAGS.Boolean;
+  }
+  if (type === 'any') {
+    return MEMBER_FLAGS.Any;
+  }
+  return MEMBER_FLAGS.Unknown;
+};
+
+const formatStatesRuntimeMember = (states: d.ComponentCompilerState[]) => {
+  const runtimeMembers: d.ComponentRuntimeMembers = {};
+
+  states.forEach((member) => {
+    runtimeMembers[member.name] = [
+      /**
+       * [0] member flags
+       */
+      MEMBER_FLAGS.State,
+    ];
+  });
+  return runtimeMembers;
+};
+
+const formatMethodsRuntimeMember = (methods: d.ComponentCompilerMethod[]) => {
+  const runtimeMembers: d.ComponentRuntimeMembers = {};
+
+  methods.forEach((member) => {
+    runtimeMembers[member.name] = [
+      /**
+       * [0] member flags
+       */
+      MEMBER_FLAGS.Method,
+    ];
+  });
+  return runtimeMembers;
+};
+
+const formatHostListeners = (compilerMeta: d.ComponentCompilerMeta) => {
+  return compilerMeta.listeners.map((compilerListener) => {
+    const hostListener: d.ComponentRuntimeHostListener = [
+      computeListenerFlags(compilerListener),
+      compilerListener.name,
+      compilerListener.method,
+    ];
+    return hostListener;
+  });
+};
+
+const computeListenerFlags = (listener: d.ComponentCompilerListener) => {
+  let flags = 0;
+  if (listener.capture) {
+    flags |= LISTENER_FLAGS.Capture;
+  }
+  if (listener.passive) {
+    flags |= LISTENER_FLAGS.Passive;
+  }
+  switch (listener.target) {
+    case 'document':
+      flags |= LISTENER_FLAGS.TargetDocument;
+      break;
+    case 'window':
+      flags |= LISTENER_FLAGS.TargetWindow;
+      break;
+    case 'body':
+      flags |= LISTENER_FLAGS.TargetBody;
+      break;
+    case 'parent' as any:
+      flags |= LISTENER_FLAGS.TargetParent;
+      break;
+  }
+  return flags;
+};
+
+const trimFalsy = (data: any): any => {
+  const arr = data as any[];
+  for (let i = arr.length - 1; i >= 0; i--) {
+    if (arr[i]) {
+      break;
+    }
+    // if falsy, safe to pop()
+    arr.pop();
+  }
+
+  return arr;
+};
