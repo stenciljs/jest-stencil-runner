@@ -4,6 +4,14 @@
   "description": "Run tests on Stencil components using Jest.",
   "author": "Christian Bromann <christian.bromann@outsystems.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stenciljs/jest-stencil-runner.git"
+  },
+  "homepage": "https://github.com/stenciljs/jest-stencil-runner",
+  "bugs": {
+    "url": "https://github.com/stenciljs/jest-stencil-runner/issues"
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
