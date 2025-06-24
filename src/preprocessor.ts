@@ -1,7 +1,7 @@
 import process from 'node:process';
 
-import type { SyncTransformer, TransformedSource, TransformOptions } from '@jest/transform';
 import { transpileSync } from '@stencil/core/compiler';
+import type { SyncTransformer, TransformedSource, TransformOptions } from '@jest/transform';
 
 /**
  * Jest preprocessor for transforming TypeScript, JSX, and CSS files for Stencil components.
