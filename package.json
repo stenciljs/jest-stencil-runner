@@ -42,21 +42,21 @@
     "@jest/globals": "^30.0.2",
     "@jest/transform": "^30.0.2",
     "@jest/types": "^30.0.1",
-    "@stencil/core": "^4.27.1",
+    "@stencil/core": "^4.35.1",
     "jest": "^30.0.2",
     "jest-runner": "^30.0.2",
-    "puppeteer": "^24.3.0",
-    "semver": "^7.6.4",
-    "ts-jest": "^29.2.5",
+    "puppeteer": "^24.10.2",
+    "semver": "^7.7.2",
+    "ts-jest": "^29.4.0",
     "typescript": "^5.8.3"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "@types/node": "^22.13.5",
-    "@types/semver": "^7.5.8",
-    "eslint": "^9.26.0",
-    "tsdown": "^0.11.9",
-    "tsx": "^4.19.4"
+    "@types/semver": "^7.7.0",
+    "eslint": "^9.29.0",
+    "tsdown": "^0.12.8",
+    "tsx": "^4.20.3"
   },
-  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac"
+  "packageManager": "pnpm@10.12.3"
 }
