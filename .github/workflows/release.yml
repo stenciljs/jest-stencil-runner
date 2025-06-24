@@ -66,6 +66,7 @@ jobs:
       - uses: stenciljs/.github/actions/publish-npm@main
         with:
           tag: dev
+          skip-setup: true
           version: ${{ needs.get_dev_version.outputs.dev-version }}
           token: ${{ secrets.NPM_PAT_STENCIL_BOT }}
 
@@ -83,6 +84,7 @@ jobs:
       - uses: stenciljs/.github/actions/publish-npm@main
         with:
           tag: latest
+          skip-setup: true
           version: ${{ inputs.releaseType }}
           token: ${{ secrets.NPM_PAT_STENCIL_BOT }}
           github-token: ${{ secrets.GH_ADMIN_PAT }}
