@@ -1,8 +1,8 @@
 import process from 'node:process';
 
-import type { expect as JestExpect, jest as JestJest } from '@jest/globals';
-
 import * as customMatchers from './matcher/index.js';
+
+import type { expect as JestExpect, jest as JestJest } from '@jest/globals';
 
 declare const expect: typeof JestExpect;
 declare const jest: typeof JestJest;

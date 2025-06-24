@@ -1,6 +1,12 @@
 // @ts-expect-error - TODO: add types for this module
 import { win as mockWindow, resetPlatform } from '@stencil/core/internal/testing';
-import type { MockCustomEvent, MockDocument, MockKeyboardEvent, MockMouseEvent, MockWindow } from '@stencil/core/mock-doc';
+import type {
+  MockCustomEvent,
+  MockDocument,
+  MockKeyboardEvent,
+  MockMouseEvent,
+  MockWindow,
+} from '@stencil/core/mock-doc';
 
 type MockStorage = ReturnType<typeof mockWindow>['localStorage'];
 type MockEvent = ReturnType<typeof mockWindow>['Event'];
