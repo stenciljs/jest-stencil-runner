@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@jest/globals':
+        specifier: ^30.0.2
+        version: 30.0.2
       '@jest/transform':
         specifier: ^30.0.2
         version: 30.0.2

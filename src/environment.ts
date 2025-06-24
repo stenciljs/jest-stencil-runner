@@ -3,7 +3,8 @@
  * This provides the basic browser-like environment needed for component tests.
  */
 import type { Config } from '@jest/types';
-import { win, resetPlatform } from './platform';
+// @ts-expect-error - TODO: add types for this module
+import { win, resetPlatform } from '@stencil/core/internal/testing';
 
 /**
  * Jest environment that provides the Stencil testing platform.

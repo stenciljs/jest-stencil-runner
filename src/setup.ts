@@ -1,3 +1,8 @@
+import type { expect as JestExpect, jest as JestJest } from '@jest/globals';
+
+declare const expect: typeof JestExpect;
+declare const jest: typeof JestJest;
+
 /**
  * Setup function for Jest with Stencil testing.
  * This function is called after the test framework has been set up.
@@ -5,7 +10,7 @@
 export function setupJestStencil(): void {
   // Setup custom matchers for Stencil testing
   setupCustomMatchers();
-  
+
   // Setup global test utilities
   setupGlobalTestUtils();
   

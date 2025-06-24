@@ -1,8 +1,3 @@
-/**
- * ToDo(@christian-bromann): This file is a copy from the Stencil project.
- * We should export it and receive it from the Stencil project.
- */
-
 export const enum MEMBER_FLAGS {
   String = 1 << 0,
   Number = 1 << 1,

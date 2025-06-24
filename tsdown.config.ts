@@ -3,25 +3,32 @@ import { defineConfig } from 'tsdown'
 export default defineConfig([
   {
     entry: ['./src/index.ts'],
-    platform: 'neutral',
+    platform: 'node',
     dts: true,
     format: ['esm', 'cjs'],
   },
   {
     entry: ['./src/preset-export.ts'],
-    platform: 'neutral',
+    platform: 'node',
     dts: true,
-    format: ['esm', 'cjs'],
+    format: ['esm', 'cjs']
   },
   {
-    entry: ['./src/preprocessor-entry.ts'],
-    platform: 'neutral',
+    entry: ['./src/preprocessor.ts'],
+    platform: 'node',
     dts: true,
     format: ['esm', 'cjs'],
   },
   {
     entry: ['./src/setup-entry.ts'],
-    platform: 'neutral',
+    platform: 'node',
+    dts: true,
+    format: ['esm', 'cjs'],
+    external: ['@jest/globals']
+  },
+  {
+    entry: ['./src/snapshot.ts'],
+    platform: 'node',
     dts: true,
     format: ['esm', 'cjs'],
   },

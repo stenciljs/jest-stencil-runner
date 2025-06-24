@@ -1,5 +1,4 @@
 import type {
-  ComponentCompilerMeta,
   ComponentRuntimeMeta,
   ComponentTestingConstructor,
   HostRef,
@@ -23,8 +22,9 @@ import {
   styles,
   win,
   writeTask,
-} from './platform/index';
-import { BUILD } from './app-data';
+  // @ts-expect-error - TODO: add types for this module
+} from '@stencil/core/internal/testing';
+import { BUILD } from '@stencil/core/internal/app-data';
 import { formatLazyBundleRuntimeMeta } from './utils';
 
 import { resetBuildConditionals } from './reset-build-conditionals';
@@ -232,6 +232,7 @@ export async function newSpecPage(opts: NewSpecPageOptions): Promise<SpecPage> {
   return page;
 }
 
+
 /**
  * A helper method that proxies Stencil lifecycle methods by mutating the provided component class
  * @param Cstr the component class whose lifecycle methods will be proxied
@@ -255,6 +256,7 @@ function proxyComponentLifeCycles(Cstr: ComponentTestingConstructor): void {
   if (typeof Cstr.prototype?.componentWillLoad === 'function') {
     Cstr.prototype.__componentWillLoad = Cstr.prototype.componentWillLoad;
     Cstr.prototype.componentWillLoad = function () {
+      // @ts-expect-error - TODO: add types for this module
       const result = this.__componentWillLoad();
       if (result != null && typeof result.then === 'function') {
         writeTask(() => result);
@@ -268,6 +270,7 @@ function proxyComponentLifeCycles(Cstr: ComponentTestingConstructor): void {
   if (typeof Cstr.prototype?.componentWillUpdate === 'function') {
     Cstr.prototype.__componentWillUpdate = Cstr.prototype.componentWillUpdate;
     Cstr.prototype.componentWillUpdate = function () {
+      // @ts-expect-error - TODO: add types for this module
       const result = this.__componentWillUpdate();
       if (result != null && typeof result.then === 'function') {
         writeTask(() => result);
@@ -281,6 +284,7 @@ function proxyComponentLifeCycles(Cstr: ComponentTestingConstructor): void {
   if (typeof Cstr.prototype?.componentWillRender === 'function') {
     Cstr.prototype.__componentWillRender = Cstr.prototype.componentWillRender;
     Cstr.prototype.componentWillRender = function () {
+      // @ts-expect-error - TODO: add types for this module
       const result = this.__componentWillRender();
       if (result != null && typeof result.then === 'function') {
         writeTask(() => result);

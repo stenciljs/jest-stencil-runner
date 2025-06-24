@@ -19,9 +19,9 @@
       "types": "./dist/preset-export.d.ts"
     },
     "./preprocessor": {
-      "import": "./dist/preprocessor-entry.mjs",
-      "require": "./dist/preprocessor-entry.js",
-      "types": "./dist/preprocessor-entry.d.ts"
+      "import": "./dist/preprocessor.mjs",
+      "require": "./dist/preprocessor.js",
+      "types": "./dist/preprocessor.d.ts"
     },
     "./setup": {
       "import": "./dist/setup-entry.mjs",

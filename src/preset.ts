@@ -1,8 +1,8 @@
+import path from 'node:path';
 import type { Config } from '@jest/types';
-import { join } from 'path';
 
 const moduleExtensions = ['ts', 'tsx', 'js', 'mjs', 'jsx'];
-const moduleExtensionRegexp = '(' + moduleExtensions.join('|') + ')';
+const moduleExtensionRegexp = `(${moduleExtensions.join('|')})`;
 
 /**
  * Create a Jest preset configuration for Stencil components.
@@ -42,6 +42,9 @@ export function createJestStencilPreset(options: {
       '!src/**/*.e2e.{ts,tsx}',
     ],
     testTimeout: 30000,
+    snapshotSerializers: [
+      path.resolve(__dirname, 'snapshot.js')
+    ],
   };
 
   return preset;

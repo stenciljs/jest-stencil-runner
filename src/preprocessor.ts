@@ -225,3 +225,5 @@ function transformJavaScript(sourceText: string): string {
   
   return transformed;
 } 
+
+export default JestStencilPreprocessor;
