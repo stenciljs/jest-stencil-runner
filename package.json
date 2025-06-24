@@ -58,5 +58,8 @@
     "tsdown": "^0.12.8",
     "tsx": "^4.20.3"
   },
-  "packageManager": "pnpm@10.12.3"
+  "packageManager": "pnpm@10.12.3",
+  "publishConfig": {
+    "access": "public"
+  }
 }
