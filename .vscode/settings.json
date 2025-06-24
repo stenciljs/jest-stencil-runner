@@ -1,0 +1,73 @@
+{
+  // TypeScript settings
+  "typescript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "typescript.inlayHints.parameterNames.enabled": "literals",
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+
+  // ESLint settings
+  "eslint.enable": true,
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "eslint.workingDirectories": [".", "./example"],
+
+  // Prettier/Formatting settings
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+
+  // File associations and language settings
+  "files.associations": {
+    "*.tsx": "typescriptreact",
+    "*.ts": "typescript"
+  },
+
+  // Jest settings
+  "jest.jestCommandLine": "pnpm test",
+  "jest.rootPath": "./example",
+  "jest.autoRun": "off",
+
+  // File explorer settings
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/www": true,
+    "**/.stencil": true,
+    "**/coverage": true,
+    "**/.DS_Store": true
+  },
+
+  // Search settings
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/www": true,
+    "**/.stencil": true,
+    "**/coverage": true,
+    "**/pnpm-lock.yaml": true
+  },
+
+  // Terminal settings
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.profiles.osx": {
+    "zsh": {
+      "path": "/bin/zsh",
+      "args": ["-l"]
+    }
+  },
+
+  // Package manager settings
+  "npm.packageManager": "pnpm",
+  "typescript.preferences.useAliasesForRenames": false,
+
+  // Stencil specific settings
+  "html.suggest.html5": true,
+  "emmet.includeLanguages": {
+    "typescript": "html",
+    "typescriptreact": "html"
+  }
+}

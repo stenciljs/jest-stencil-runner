@@ -1,0 +1,37 @@
+{
+  "recommendations": [
+    // Essential TypeScript and JavaScript support
+    "ms-vscode.vscode-typescript-next",
+
+    // Linting and formatting
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+
+    // Jest testing support
+    "orta.vscode-jest",
+
+    // Stencil support
+    "stencil-js.stencil-tools",
+
+    // HTML/CSS support
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode.vscode-css-peek",
+
+    // Git integration
+    "eamodio.gitlens",
+
+    // Package management
+    "christian-kohler.npm-intellisense",
+    "ms-vscode.vscode-node-azure-pack",
+
+    // Productivity
+    "ms-vscode.vscode-json",
+    "redhat.vscode-yaml",
+    "ms-vscode.vscode-markdown",
+    "streetsidesoftware.code-spell-checker",
+
+    // Debug support
+    "ms-vscode.js-debug"
+  ],
+  "unwantedRecommendations": ["ms-vscode.vscode-typescript"]
+}
