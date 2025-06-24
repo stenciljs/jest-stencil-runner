@@ -87,5 +87,10 @@
     "tsdown": "^0.12.8",
     "tsx": "^4.20.3"
   },
+  "pnpm": {
+    "overrides": {
+      "eslint-plugin-jsdoc": "^50.0.0"
+    }
+  },
   "prettier": "@ionic/prettier-config"
 }
