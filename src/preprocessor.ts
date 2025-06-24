@@ -71,7 +71,8 @@ function transpileWithStencil(sourceText: string, sourcePath: string, options: T
     const results = transpileSync(sourceText, transpileOptions);
 
     // Check for errors
-    const hasErrors = results.diagnostics && results.diagnostics.some((diagnostic: any) => diagnostic.level === 'error');
+    const hasErrors =
+      results.diagnostics && results.diagnostics.some((diagnostic: any) => diagnostic.level === 'error');
 
     if (hasErrors) {
       const msg = results.diagnostics
@@ -148,41 +149,23 @@ function transformCSS(sourceText: string): string {
 function convertESModulesToCommonJS(code: string): string {
   // Convert import statements to require statements
   // Handle: import Name from "./file.css?tag=name&encapsulation=shadow";
-  code = code.replace(
-    /import\s+(\w+)\s+from\s+["']([^"']+\.css\?[^"']+)["'];?/g,
-    'const $1 = require("$2");'
-  );
+  code = code.replace(/import\s+(\w+)\s+from\s+["']([^"']+\.css\?[^"']+)["'];?/g, 'const $1 = require("$2");');
 
   // Handle: import { name } from "./file";
-  code = code.replace(
-    /import\s+\{\s*([^}]+)\s*\}\s+from\s+["']([^"']+)["'];?/g,
-    'const { $1 } = require("$2");'
-  );
+  code = code.replace(/import\s+\{\s*([^}]+)\s*\}\s+from\s+["']([^"']+)["'];?/g, 'const { $1 } = require("$2");');
 
   // Handle: import * as name from "./file";
-  code = code.replace(
-    /import\s+\*\s+as\s+(\w+)\s+from\s+["']([^"']+)["'];?/g,
-    'const $1 = require("$2");'
-  );
+  code = code.replace(/import\s+\*\s+as\s+(\w+)\s+from\s+["']([^"']+)["'];?/g, 'const $1 = require("$2");');
 
   // Handle: import name from "./file";
-  code = code.replace(
-    /import\s+(\w+)\s+from\s+["']([^"']+)["'];?/g,
-    'const $1 = require("$2");'
-  );
+  code = code.replace(/import\s+(\w+)\s+from\s+["']([^"']+)["'];?/g, 'const $1 = require("$2");');
 
   // Convert export statements to module.exports
   // Handle: export { name };
-  code = code.replace(
-    /export\s+\{\s*([^}]+)\s*\};?/g,
-    'module.exports = { $1 };'
-  );
+  code = code.replace(/export\s+\{\s*([^}]+)\s*\};?/g, 'module.exports = { $1 };');
 
   // Handle: export default name;
-  code = code.replace(
-    /export\s+default\s+([^;]+);?/g,
-    'module.exports = $1;'
-  );
+  code = code.replace(/export\s+default\s+([^;]+);?/g, 'module.exports = $1;');
 
   return code;
 }
