@@ -1,3 +1,4 @@
+import { h } from '@stencil/core';
 import { newSpecPage } from 'jest-stencil-runner';
 import { MyComponent } from './my-component';
 
@@ -25,6 +26,22 @@ describe('my-component', () => {
 </my-component>
 `);
   });
+
+  it('can render the component with a custom template',  async() => {
+    const { root } = await newSpecPage({
+      components: [MyComponent],
+      template: () => <my-component first="Stencil" middle="'Don't call me a framework'" last="JS"></my-component>
+    });
+    expect(root).toMatchInlineSnapshot(`
+<my-component>
+  <template shadowrootmode="open">
+    <div>
+      Hello, World! I'm Stencil 'Don't call me a framework' JS
+    </div>
+  </template>
+</my-component>
+`)
+  })
 
   describe('HTML Matchers', () => {
     it('should render correct HTML structure', async () => {

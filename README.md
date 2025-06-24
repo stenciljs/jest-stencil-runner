@@ -11,6 +11,7 @@ This package provides a Jest preset and testing utilities specifically designed 
 - 🔧 **TypeScript Support** - Full TypeScript support with proper type definitions
 - 🎨 **Custom Matchers** - Additional Jest matchers for HTML and component testing
 - 📱 **Component Testing** - Test Stencil components in isolation with `newSpecPage()`
+- 📸 **Shadow DOM Testing** - Full support for testing and snapshotting Shadow DOM content
 
 ## Installation
 
@@ -47,64 +48,67 @@ module.exports = createJestStencilPreset({
 
 Test your Stencil components using the `newSpecPage()` utility:
 
-```typescript
+```tsx
 import { newSpecPage } from 'jest-stencil-runner';
-import { MyComponent } from './my-component';
+import { MyButton } from './my-button';
 
-describe('my-component', () => {
-  it('renders', async () => {
-    const page = await newSpecPage({
-      components: [MyComponent],
-      html: `<my-component></my-component>`,
+describe('my-button', () => {
+  it('renders with correct structure and styling', async () => {
+    const { root } = await newSpecPage({
+      components: [MyButton],
+      /**
+       * use string template
+       */
+      html: '<my-button variant="primary" disabled>Click me</my-button>',
     });
-    expect(page.root).toEqualHtml(`
-      <my-component>
-        <mock:shadow-root>
-          <div>
-            Hello, World! I'm
-          </div>
-        </mock:shadow-root>
-      </my-component>
+
+    // Test HTML structure with shadow DOM
+    expect(root).toEqualHtml(`
+      <my-button variant="primary" disabled>
+        <template shadowrootmode="open">
+          <button class="btn btn--primary btn--disabled" disabled>
+            Click me
+          </button>
+        </template>
+      </my-button>
     `);
+
+    // Test specific attributes and classes
+    const button = root.shadowRoot.querySelector('button');
+    expect(button).toHaveAttribute('disabled');
+    expect(button).toHaveClasses(['btn', 'btn--primary', 'btn--disabled']);
+    expect(button).toEqualText('Click me');
   });
 
-  it('renders with values', async () => {
-    const page = await newSpecPage({
-      components: [MyComponent],
-      html: `<my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>`,
-    });
-    expect(page.root).toEqualHtml(`
-      <my-component first="Stencil" last="'Don't call me a framework' JS">
-        <mock:shadow-root>
-          <div>
-            Hello, World! I'm Stencil 'Don't call me a framework' JS
-          </div>
-        </mock:shadow-root>
-      </my-component>
-    `);
-  });
-
-  it('handles property changes', async () => {
-    const page = await newSpecPage({
-      components: [MyComponent],
-      html: `<my-component></my-component>`,
+  it('handles property changes and events', async () => {
+    const { root, waitForChanges } = await newSpecPage({
+      components: [MyButton],
+      /**
+       * use JSX template
+       */
+      template: () => <my-button>Submit</my-button>,
     });
 
-    // Update properties
-    page.root.first = 'Hello';
-    page.root.last = 'World';
-    
-    await page.waitForChanges();
+    // Test event handling
+    const clickSpy = jest.fn();
+    root.addEventListener('buttonClick', clickSpy);
 
-    expect(page.root).toEqualHtml(`
-      <my-component>
-        <mock:shadow-root>
-          <div>
-            Hello, World! I'm Hello World
-          </div>
-        </mock:shadow-root>
-      </my-component>
-    `);
+    const button = root.shadowRoot.querySelector('button');
+    button.click();
+    await waitForChanges();
+
+    expect(clickSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        detail: { clicked: true, timestamp: expect.any(Number) }
+      })
+    );
+
+    // Test property updates
+    root.variant = 'danger';
+    root.disabled = true;
+    await waitForChanges();
+
+    expect(button).toHaveClasses(['btn', 'btn--danger', 'btn--disabled']);
   });
 });
 ```
