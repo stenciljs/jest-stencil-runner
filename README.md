@@ -4,8 +4,6 @@
 
 This package provides a Jest preset and testing utilities specifically designed for Stencil components. It integrates Stencil's testing platform with Jest, allowing you to write unit tests for your Stencil components using familiar Jest syntax while leveraging Stencil's powerful testing capabilities.
 
-⚠️ This project is work in progress, don't use it yet.
-
 ## Features
 
 - 🚀 **Jest v30+ Support** - Compatible with the latest Jest version
