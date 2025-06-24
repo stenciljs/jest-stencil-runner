@@ -1,6 +1,7 @@
-import type { Config } from '@jest/types';
 import { createJestStencilPreset } from './preset';
+import type { Config } from '@jest/types';
 
 // Export the default preset configuration
 const preset: Config.InitialOptions = createJestStencilPreset();
-export default preset; 
+// eslint-disable-next-line import/no-default-export
+export default preset;

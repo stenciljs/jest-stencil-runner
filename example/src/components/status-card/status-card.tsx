@@ -73,50 +73,29 @@ export class StatusCard {
     };
 
     return (
-      <div
-        class={cardClasses}
-        role="alert"
-        aria-labelledby="card-title"
-        data-status={this.status}
-        data-testid="status-card"
-      >
+      <div class={cardClasses} role="alert" aria-labelledby="card-title" data-status={this.status} data-testid="status-card">
         <div class="card-header">
           {this.showIcon && (
-            <span
-              class="status-icon"
-              aria-label={this.getStatusText()}
-              data-icon={this.getIcon()}
-            >
+            <span class="status-icon" aria-label={this.getStatusText()} data-icon={this.getIcon()}>
               {this.getIcon()}
             </span>
           )}
 
           {this.title && (
-            <h3
-              id="card-title"
-              class="card-title"
-              data-title={this.title}
-            >
+            <h3 id="card-title" class="card-title" data-title={this.title}>
               {this.title}
             </h3>
           )}
 
           {this.dismissible && (
-            <button
-              class="dismiss-button"
-              aria-label="Dismiss"
-              data-action="dismiss"
-            >
+            <button class="dismiss-button" aria-label="Dismiss" data-action="dismiss">
               ×
             </button>
           )}
         </div>
 
         {this.message && (
-          <div
-            class="card-content"
-            data-message={this.message}
-          >
+          <div class="card-content" data-message={this.message}>
             <p class="card-message">{this.message}</p>
           </div>
         )}

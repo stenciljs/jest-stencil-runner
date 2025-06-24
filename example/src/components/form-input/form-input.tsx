@@ -118,7 +118,7 @@ export class FormInput {
 
     this.inputChange.emit({
       value: this.value,
-      isValid: this.isValid
+      isValid: this.isValid,
     });
   };
 
@@ -131,7 +131,7 @@ export class FormInput {
     this.isFocused = false;
     this.inputBlur.emit({
       value: this.value,
-      isValid: this.isValid
+      isValid: this.isValid,
     });
   };
 
@@ -152,10 +152,7 @@ export class FormInput {
     return (
       <div class={containerClasses}>
         {this.label && (
-          <label
-            class="input-label"
-            data-required={this.required}
-          >
+          <label class="input-label" data-required={this.required}>
             {this.label}
             {this.required && <span class="required-asterisk">*</span>}
           </label>
@@ -187,11 +184,7 @@ export class FormInput {
         </div>
 
         {!this.isValid && (
-          <div
-            id="error-message"
-            class="error-message"
-            role="alert"
-          >
+          <div id="error-message" class="error-message" role="alert">
             {this.errorMessage}
           </div>
         )}

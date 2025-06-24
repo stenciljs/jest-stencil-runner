@@ -7,12 +7,12 @@ const moduleExtensionRegexp = `(${moduleExtensions.join('|')})`;
 /**
  * Create a Jest preset configuration for Stencil components.
  */
-export function createJestStencilPreset(options: {
-  rootDir?: string;
-  moduleNameMapper?: Record<string, string>;
-} = {}): Config.InitialOptions {
-  const rootDir = options.rootDir || process.cwd();
-
+export function createJestStencilPreset(
+  options: {
+    rootDir?: string;
+    moduleNameMapper?: Record<string, string>;
+  } = {},
+): Config.InitialOptions {
   const preset: Config.InitialOptions = {
     testEnvironment: 'node',
     moduleFileExtensions: [...moduleExtensions, 'json', 'd.ts'],
@@ -22,30 +22,16 @@ export function createJestStencilPreset(options: {
       ...options.moduleNameMapper,
     },
     setupFilesAfterEnv: ['jest-stencil-runner/setup'],
-    testPathIgnorePatterns: [
-      '/.cache',
-      '/.stencil', 
-      '/.vscode',
-      '/dist',
-      '/node_modules',
-      '/www'
-    ],
-    testRegex: '(/__tests__/.*|\\.?(test|spec))\\.' + moduleExtensionRegexp + '$',
+    testPathIgnorePatterns: ['/.cache', '/.stencil', '/.vscode', '/dist', '/node_modules', '/www'],
+    testRegex: `${String.raw`(/__tests__/.*|\.?(test|spec))\.` + moduleExtensionRegexp}$`,
     transform: {
       '^.+\\.(ts|tsx|jsx|js|mjs|css)$': 'jest-stencil-runner/preprocessor',
     },
-    watchPathIgnorePatterns: ['^.+\\.d\\.ts$'],
-    collectCoverageFrom: [
-      'src/**/*.{ts,tsx}',
-      '!src/**/*.d.ts',
-      '!src/**/*.spec.{ts,tsx}',
-      '!src/**/*.e2e.{ts,tsx}',
-    ],
+    watchPathIgnorePatterns: [String.raw`^.+\.d\.ts$`],
+    collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts', '!src/**/*.spec.{ts,tsx}', '!src/**/*.e2e.{ts,tsx}'],
     testTimeout: 30000,
-    snapshotSerializers: [
-      path.resolve(__dirname, 'snapshot.js')
-    ],
+    snapshotSerializers: [path.resolve(__dirname, 'snapshot.js')],
   };
 
   return preset;
-} 
+}

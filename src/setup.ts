@@ -1,5 +1,8 @@
+import process from 'node:process';
+
 import type { expect as JestExpect, jest as JestJest } from '@jest/globals';
-import * as customMatchers from './ matcher/index.js';
+
+import * as customMatchers from './matcher/index.js';
 
 declare const expect: typeof JestExpect;
 declare const jest: typeof JestJest;
@@ -33,7 +36,7 @@ function setupTimeouts(): void {
   if (typeof process !== 'undefined' && process.env) {
     const timeout = process.env.STENCIL_DEFAULT_TIMEOUT;
     if (timeout && typeof jest !== 'undefined') {
-      jest.setTimeout(parseInt(timeout, 10));
+      jest.setTimeout(Number.parseInt(timeout, 10));
     }
   }
 }

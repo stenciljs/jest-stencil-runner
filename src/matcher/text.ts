@@ -6,25 +6,27 @@ export function toEqualText(input: HTMLElement | string, expectTextContent: stri
   }
 
   if (typeof (input as any).then === 'function') {
-    throw new Error(`element must be a resolved value, not a promise, before it can be tested`);
+    throw new TypeError(`element must be a resolved value, not a promise, before it can be tested`);
   }
 
   let textContent: string;
 
   if ((input as HTMLElement).nodeType === NODE_TYPES.ELEMENT_NODE) {
-    textContent = ((input as HTMLElement).textContent ?? '').replace(/\s\s+/g, ' ').trim();
+    textContent = ((input as HTMLElement).textContent ?? '').replaceAll(/\s{2,}/g, ' ').trim();
   } else {
-    textContent = String(input).replace(/\s\s+/g, ' ').trim();
+    textContent = String(input)
+      .replaceAll(/\s{2,}/g, ' ')
+      .trim();
   }
 
   if (typeof expectTextContent === 'string') {
-    expectTextContent = expectTextContent.replace(/\s\s+/g, ' ').trim();
+    expectTextContent = expectTextContent.replaceAll(/\s{2,}/g, ' ').trim();
   }
 
   const pass = textContent === expectTextContent;
 
   return {
     message: () => `expected textContent "${expectTextContent}" to ${pass ? 'not ' : ''}equal "${textContent}"`,
-    pass: pass,
+    pass,
   };
 }

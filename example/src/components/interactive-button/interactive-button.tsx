@@ -57,7 +57,7 @@ export class InteractiveButton {
     this.clickCount++;
     this.buttonClick.emit({
       count: this.clickCount,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   };
 
@@ -65,7 +65,7 @@ export class InteractiveButton {
     if (this.disabled || this.loading) return;
 
     this.buttonDoubleClick.emit({
-      message: `Double clicked! Total clicks: ${this.clickCount}`
+      message: `Double clicked! Total clicks: ${this.clickCount}`,
     });
   };
 
@@ -97,11 +97,7 @@ export class InteractiveButton {
         onClick={this.handleClick}
         onDblClick={this.handleDoubleClick}
       >
-        {this.loading ? (
-          <span class="loading-spinner">Loading...</span>
-        ) : (
-          this.label
-        )}
+        {this.loading ? <span class="loading-spinner">Loading...</span> : this.label}
         {this.clickCount > 0 && (
           <span class="click-badge" data-count={this.clickCount}>
             {this.clickCount}

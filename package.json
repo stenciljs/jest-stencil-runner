@@ -43,8 +43,13 @@
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
-    "lint": "eslint src --ext .ts,.tsx",
-    "test": "pnpm --filter example test"
+    "lint": "",
+    "prettier": "npm run prettier.base -- --write",
+    "prettier.base": "prettier --cache \"./({src,example}/**/*.{ts,tsx,js,jsx})|.github/(**/)?*.(yml|yaml)|*.js\"",
+    "prettier.dry-run": "npm run prettier.base -- --list-different",
+    "test": "run-s test:*",
+    "test:lint": "eslint src --ext .ts,.tsx",
+    "test:unit": "pnpm --filter example test"
   },
   "dependencies": {
     "@jest/globals": "^30.0.2",
@@ -59,14 +64,18 @@
     "typescript": "^5.8.3"
   },
   "devDependencies": {
+    "@ionic/prettier-config": "^4.0.0",
+    "@sxzz/eslint-config": "^7.0.4",
     "@types/jest": "^30.0.0",
     "@types/node": "^22.13.5",
     "@types/semver": "^7.7.0",
     "eslint": "^9.29.0",
+    "npm-run-all2": "^8.0.4",
     "tsdown": "^0.12.8",
     "tsx": "^4.20.3"
   },
   "packageManager": "pnpm@10.12.3",
+  "prettier": "@ionic/prettier-config",
   "publishConfig": {
     "access": "public"
   }

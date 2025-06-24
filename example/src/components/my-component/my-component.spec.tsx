@@ -27,10 +27,10 @@ describe('my-component', () => {
 `);
   });
 
-  it('can render the component with a custom template',  async() => {
+  it('can render the component with a custom template', async () => {
     const { root } = await newSpecPage({
       components: [MyComponent],
-      template: () => <my-component first="Stencil" middle="'Don't call me a framework'" last="JS"></my-component>
+      template: () => <my-component first="Stencil" middle="'Don't call me a framework'" last="JS"></my-component>,
     });
     expect(root).toMatchInlineSnapshot(`
 <my-component>
@@ -40,8 +40,8 @@ describe('my-component', () => {
     </div>
   </template>
 </my-component>
-`)
-  })
+`);
+  });
 
   describe('HTML Matchers', () => {
     it('should render correct HTML structure', async () => {
@@ -79,7 +79,7 @@ describe('my-component', () => {
       });
 
       const div = root.shadowRoot.querySelector('div');
-      expect(div).toEqualText('Hello, World! I\'m Alice Marie Johnson');
+      expect(div).toEqualText("Hello, World! I'm Alice Marie Johnson");
     });
 
     it('should handle empty names', async () => {
@@ -89,7 +89,7 @@ describe('my-component', () => {
       });
 
       const div = root.shadowRoot.querySelector('div');
-      expect(div).toEqualText('Hello, World! I\'m');
+      expect(div).toEqualText("Hello, World! I'm");
     });
 
     it('should handle single name', async () => {
@@ -99,7 +99,7 @@ describe('my-component', () => {
       });
 
       const div = root.shadowRoot.querySelector('div');
-      expect(div).toEqualText('Hello, World! I\'m Cher');
+      expect(div).toEqualText("Hello, World! I'm Cher");
     });
   });
 
@@ -133,8 +133,8 @@ describe('my-component', () => {
       });
 
       expect(root).toEqualAttributes({
-        'first': 'Bob',
-        'last': 'Builder'
+        first: 'Bob',
+        last: 'Builder',
       });
     });
   });
@@ -147,7 +147,7 @@ describe('my-component', () => {
       });
 
       const div = root.shadowRoot.querySelector('div');
-      expect(div).toEqualText('Hello, World! I\'m José María García-López');
+      expect(div).toEqualText("Hello, World! I'm José María García-López");
     });
 
     it('should handle very long names', async () => {

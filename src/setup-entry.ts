@@ -2,4 +2,4 @@
 import { setupJestStencil } from './setup';
 
 // Call setup immediately
-setupJestStencil(); 
+setupJestStencil();

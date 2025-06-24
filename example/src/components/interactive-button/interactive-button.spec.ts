@@ -89,7 +89,7 @@ describe('interactive-button', () => {
       expect(button).toEqualAttributes({
         'disabled': '',
         'data-click-count': '0',
-        'aria-label': 'Delete'
+        'aria-label': 'Delete',
       });
     });
 
@@ -202,9 +202,9 @@ describe('interactive-button', () => {
         expect.objectContaining({
           detail: expect.objectContaining({
             count: 1,
-            timestamp: expect.any(Number)
-          })
-        })
+            timestamp: expect.any(Number),
+          }),
+        }),
       );
     });
 
@@ -258,9 +258,9 @@ describe('interactive-button', () => {
       expect(dblClickSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           detail: {
-            message: 'Double clicked! Total clicks: 1'
-          }
-        })
+            message: 'Double clicked! Total clicks: 1',
+          },
+        }),
       );
     });
 
@@ -279,8 +279,8 @@ describe('interactive-button', () => {
       expect(loadingSpy).toHaveBeenCalledTimes(1);
       expect(loadingSpy).toHaveBeenCalledWith(
         expect.objectContaining({
-          detail: true
-        })
+          detail: true,
+        }),
       );
 
       // Wait for loading to complete
@@ -290,8 +290,8 @@ describe('interactive-button', () => {
       expect(loadingSpy).toHaveBeenCalledTimes(2);
       expect(loadingSpy).toHaveBeenLastCalledWith(
         expect.objectContaining({
-          detail: false
-        })
+          detail: false,
+        }),
       );
     });
 
@@ -317,7 +317,7 @@ describe('interactive-button', () => {
     });
   });
 
-    describe('EventSpy Matcher Tests', () => {
+  describe('EventSpy Matcher Tests', () => {
     it('should use EventSpy matchers to test events comprehensively', async () => {
       const { root, waitForChanges } = await newSpecPage({
         components: [InteractiveButton],
@@ -327,7 +327,7 @@ describe('interactive-button', () => {
       const button = root.shadowRoot.querySelector('button');
       const events = [];
 
-      root.addEventListener('buttonClick', (e) => {
+      root.addEventListener('buttonClick', e => {
         events.push(e);
       });
 
@@ -345,7 +345,7 @@ describe('interactive-button', () => {
         events: events,
         firstEvent: events[0],
         lastEvent: events[events.length - 1],
-        length: events.length
+        length: events.length,
       };
 
       // Test toHaveReceivedEvent matcher
@@ -354,7 +354,7 @@ describe('interactive-button', () => {
       // Test toHaveReceivedEventTimes matcher
       expect(eventSpy).toHaveReceivedEventTimes(3);
 
-            // Test toHaveReceivedEventDetail matcher (tests last event)
+      // Test toHaveReceivedEventDetail matcher (tests last event)
       // Note: We can't use expect.any(Number) in our custom matchers, so we check the structure
       const lastEventDetail = eventSpy.lastEvent.detail;
       expect(lastEventDetail.count).toBe(3);
@@ -382,7 +382,7 @@ describe('interactive-button', () => {
 
       const loadingEvents = [];
 
-      root.addEventListener('loadingChange', (e) => {
+      root.addEventListener('loadingChange', e => {
         loadingEvents.push(e);
       });
 
@@ -399,7 +399,7 @@ describe('interactive-button', () => {
         events: loadingEvents,
         firstEvent: loadingEvents[0],
         lastEvent: loadingEvents[loadingEvents.length - 1],
-        length: loadingEvents.length
+        length: loadingEvents.length,
       };
 
       // Test that loading events were received
@@ -426,7 +426,7 @@ describe('interactive-button', () => {
       const button = root.shadowRoot.querySelector('button');
       const events = [];
 
-      root.addEventListener('buttonClick', (e) => {
+      root.addEventListener('buttonClick', e => {
         events.push(e);
       });
 
@@ -440,7 +440,7 @@ describe('interactive-button', () => {
         events: events,
         firstEvent: events[0],
         lastEvent: events[events.length - 1],
-        length: events.length
+        length: events.length,
       };
 
       // Test that no events were received

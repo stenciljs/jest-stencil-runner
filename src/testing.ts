@@ -1,11 +1,4 @@
-import type {
-  ComponentRuntimeMeta,
-  ComponentTestingConstructor,
-  HostRef,
-  LazyBundlesRuntimeData,
-  NewSpecPageOptions,
-  SpecPage,
-} from '@stencil/core/internal';
+import { BUILD } from '@stencil/core/internal/app-data';
 import {
   bootstrapLazy,
   flushAll,
@@ -24,10 +17,17 @@ import {
   writeTask,
   // @ts-expect-error - TODO: add types for this module
 } from '@stencil/core/internal/testing';
-import { BUILD } from '@stencil/core/internal/app-data';
+import { resetBuildConditionals } from './reset-build-conditionals';
 import { formatLazyBundleRuntimeMeta } from './utils';
 
-import { resetBuildConditionals } from './reset-build-conditionals';
+import type {
+  ComponentRuntimeMeta,
+  ComponentTestingConstructor,
+  HostRef,
+  LazyBundlesRuntimeData,
+  NewSpecPageOptions,
+  SpecPage,
+} from '@stencil/core/internal';
 
 /**
  * Generates a random number for use in generating a bundle id
@@ -71,12 +71,12 @@ export async function newSpecPage(opts: NewSpecPageOptions): Promise<SpecPage> {
 
   const cmpTags = new Set<string>();
 
-  (win as any)['__stencil_spec_options'] = opts;
+  (win as any).__stencil_spec_options = opts;
   const doc = win.document;
 
   const page: SpecPage = {
-    win: win,
-    doc: doc,
+    win,
+    doc,
     body: doc.body as any,
     build: BUILD,
     styles: styles as Map<string, string>,
@@ -85,8 +85,8 @@ export async function newSpecPage(opts: NewSpecPageOptions): Promise<SpecPage> {
       return flushAll();
     },
     waitForChanges: flushAll,
-    flushLoadModule: flushLoadModule,
-    flushQueue: flushQueue,
+    flushLoadModule,
+    flushQueue,
   };
 
   const lazyBundles: LazyBundlesRuntimeData = opts.components.map((Cstr: ComponentTestingConstructor) => {
@@ -153,19 +153,19 @@ export async function newSpecPage(opts: NewSpecPageOptions): Promise<SpecPage> {
   if (typeof opts.cookie === 'string') {
     try {
       page.doc.cookie = opts.cookie;
-    } catch (e) {}
+    } catch {}
   }
 
   if (typeof opts.referrer === 'string') {
     try {
       (page.doc as any).referrer = opts.referrer;
-    } catch (e) {}
+    } catch {}
   }
 
   if (typeof opts.userAgent === 'string') {
     try {
       (page.win.navigator as any).userAgent = opts.userAgent;
-    } catch (e) {}
+    } catch {}
   }
 
   bootstrapLazy(lazyBundles);
@@ -231,7 +231,6 @@ export async function newSpecPage(opts: NewSpecPageOptions): Promise<SpecPage> {
   }
   return page;
 }
-
 
 /**
  * A helper method that proxies Stencil lifecycle methods by mutating the provided component class

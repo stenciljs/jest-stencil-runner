@@ -13,7 +13,7 @@ export function toEqualAttribute(elm: HTMLElement, expectAttrName: string, expec
   }
 
   if (typeof (elm as any).then === 'function') {
-    throw new Error(`element must be a resolved value, not a promise, before it can be tested`);
+    throw new TypeError(`element must be a resolved value, not a promise, before it can be tested`);
   }
 
   if (elm.nodeType !== NODE_TYPES.ELEMENT_NODE) {
@@ -35,7 +35,7 @@ export function toEqualAttribute(elm: HTMLElement, expectAttrName: string, expec
   return {
     message: () =>
       `expected attribute ${expectAttrName} "${expectAttrValue}" to ${pass ? 'not ' : ''}equal "${receivedAttrValue}"`,
-    pass: pass,
+    pass,
   };
 }
 
@@ -51,7 +51,7 @@ export function toEqualAttributes(elm: HTMLElement, expectAttrs: { [attrName: st
   }
 
   if (typeof (elm as any).then === 'function') {
-    throw new Error(`element must be a resolved value, not a promise, before it can be tested`);
+    throw new TypeError(`element must be a resolved value, not a promise, before it can be tested`);
   }
 
   if (elm.nodeType !== NODE_TYPES.ELEMENT_NODE) {
@@ -73,7 +73,7 @@ export function toEqualAttributes(elm: HTMLElement, expectAttrs: { [attrName: st
       `expected attributes to ${pass ? 'not ' : ''}equal ${attrNames
         .map((a) => `[${a}="${expectAttrs[a]}"]`)
         .join(', ')}`,
-    pass: pass,
+    pass,
   };
 }
 
@@ -89,7 +89,7 @@ export function toHaveAttribute(elm: HTMLElement, expectAttrName: string) {
   }
 
   if (typeof (elm as any).then === 'function') {
-    throw new Error(`element must be a resolved value, not a promise, before it can be tested`);
+    throw new TypeError(`element must be a resolved value, not a promise, before it can be tested`);
   }
 
   if (elm.nodeType !== NODE_TYPES.ELEMENT_NODE) {
@@ -100,6 +100,6 @@ export function toHaveAttribute(elm: HTMLElement, expectAttrName: string) {
 
   return {
     message: () => `expected to ${pass ? 'not ' : ''}have the attribute "${expectAttrName}"`,
-    pass: pass,
+    pass,
   };
 }

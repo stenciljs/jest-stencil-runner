@@ -10,7 +10,7 @@ export function toHaveClass(elm: HTMLElement, expectClassName: string) {
   }
 
   if (typeof (elm as any).then === 'function') {
-    throw new Error(`element must be a resolved value, not a promise, before it can be tested`);
+    throw new TypeError(`element must be a resolved value, not a promise, before it can be tested`);
   }
 
   if (elm.nodeType !== 1) {
@@ -21,7 +21,7 @@ export function toHaveClass(elm: HTMLElement, expectClassName: string) {
 
   return {
     message: () => `expected to ${pass ? 'not ' : ''}have css class "${expectClassName}"`,
-    pass: pass,
+    pass,
   };
 }
 
@@ -37,7 +37,7 @@ export function toHaveClasses(elm: HTMLElement, expectClassNames: string[]) {
   }
 
   if (typeof (elm as any).then === 'function') {
-    throw new Error(`element must be a resolved value, not a promise, before it can be tested`);
+    throw new TypeError(`element must be a resolved value, not a promise, before it can be tested`);
   }
 
   if (elm.nodeType !== 1) {
@@ -53,7 +53,7 @@ export function toHaveClasses(elm: HTMLElement, expectClassNames: string[]) {
       `expected to ${pass ? 'not ' : ''}have css classes "${expectClassNames.join(' ')}", but className is "${
         elm.className
       }"`,
-    pass: pass,
+    pass,
   };
 }
 
@@ -74,6 +74,6 @@ export function toMatchClasses(elm: HTMLElement, expectClassNames: string[]) {
       `expected to ${pass ? 'not ' : ''}match css classes "${expectClassNames.join(' ')}", but className is "${
         elm.className
       }"`,
-    pass: pass,
+    pass,
   };
 }

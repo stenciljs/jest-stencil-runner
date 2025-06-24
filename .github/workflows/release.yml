@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       releaseType:
-        description: "Release type - major, minor or patch"
+        description: 'Release type - major, minor or patch'
         required: true
         type: choice
-        default: "patch"
+        default: 'patch'
         options:
           - patch
           - minor
@@ -16,10 +16,10 @@ on:
         description: Set to "yes" to release a dev build
         required: true
         type: choice
-        default: "no"
+        default: 'no'
         options:
-          - "yes"
-          - "no"
+          - 'yes'
+          - 'no'
 
 permissions:
   contents: read
@@ -49,7 +49,7 @@ jobs:
           # A unique string to publish Stencil Jest Runner under
           # e.g. "2.1.0-dev.1677185104.7c87e34"
           DEV_VERSION=$PKG_JSON_VERSION-dev.$(date +"%s").$GIT_HASH
-          
+
           echo "Using version $DEV_VERSION"
 
           # store a key/value pair in GITHUB_OUTPUT

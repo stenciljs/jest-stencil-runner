@@ -1,0 +1,5 @@
+example/.stencil
+example/dist
+example/loader
+example/www
+dist

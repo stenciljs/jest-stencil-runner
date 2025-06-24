@@ -63,7 +63,7 @@ describe('status-card', () => {
         { status: 'success', icon: '✓' },
         { status: 'warning', icon: '⚠' },
         { status: 'error', icon: '✗' },
-        { status: 'info', icon: 'ℹ' }
+        { status: 'info', icon: 'ℹ' },
       ];
 
       for (const { status, icon } of statuses) {
@@ -148,7 +148,7 @@ describe('status-card', () => {
         'role': 'alert',
         'data-status': 'success',
         'data-testid': 'status-card',
-        'aria-labelledby': 'card-title'
+        'aria-labelledby': 'card-title',
       });
     });
 
@@ -356,7 +356,7 @@ describe('status-card', () => {
         'role': 'alert',
         'data-status': 'success',
         'data-testid': 'status-card',
-        'aria-labelledby': 'card-title'
+        'aria-labelledby': 'card-title',
       });
 
       // Test classes

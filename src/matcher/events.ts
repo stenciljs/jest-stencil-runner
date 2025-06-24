@@ -1,7 +1,7 @@
-import type { expect as JestExpect } from '@jest/globals';
-import type * as d from '@stencil/core/internal';
-
 import { deepEqual } from './utils';
+import type { expect as JestExpect } from '@jest/globals';
+
+import type * as d from '@stencil/core/internal';
 
 declare const expect: typeof JestExpect;
 
@@ -16,7 +16,7 @@ export function toHaveReceivedEvent(eventSpy: d.EventSpy) {
   }
 
   if (typeof (eventSpy as any).then === 'function') {
-    throw new Error(`event spy must be a resolved value, not a promise, before it can be tested`);
+    throw new TypeError(`event spy must be a resolved value, not a promise, before it can be tested`);
   }
 
   if (!eventSpy.eventName) {
@@ -27,7 +27,7 @@ export function toHaveReceivedEvent(eventSpy: d.EventSpy) {
 
   return {
     message: () => `expected to have ${pass ? 'not ' : ''}called "${eventSpy.eventName}" event`,
-    pass: pass,
+    pass,
   };
 }
 
@@ -43,7 +43,7 @@ export function toHaveReceivedEventTimes(eventSpy: d.EventSpy, count: number) {
   }
 
   if (typeof (eventSpy as any).then === 'function') {
-    throw new Error(`event spy must be a resolved value, not a promise, before it can be tested`);
+    throw new TypeError(`event spy must be a resolved value, not a promise, before it can be tested`);
   }
 
   if (!eventSpy.eventName) {
@@ -57,7 +57,7 @@ export function toHaveReceivedEventTimes(eventSpy: d.EventSpy, count: number) {
       `expected event "${eventSpy.eventName}" to have been called ${count} times, but was called ${
         eventSpy.events.length
       } time${eventSpy.events.length > 1 ? 's' : ''}`,
-    pass: pass,
+    pass,
   };
 }
 
@@ -73,7 +73,7 @@ export function toHaveReceivedEventDetail(eventSpy: d.EventSpy, eventDetail: any
   }
 
   if (typeof (eventSpy as any).then === 'function') {
-    throw new Error(`event spy must be a resolved value, not a promise, before it can be tested`);
+    throw new TypeError(`event spy must be a resolved value, not a promise, before it can be tested`);
   }
 
   if (!eventSpy.eventName) {
@@ -90,7 +90,7 @@ export function toHaveReceivedEventDetail(eventSpy: d.EventSpy, eventDetail: any
 
   return {
     message: () => `expected event "${eventSpy.eventName}" detail to ${pass ? 'not ' : ''}equal`,
-    pass: pass,
+    pass,
   };
 }
 
@@ -106,7 +106,7 @@ export function toHaveFirstReceivedEventDetail(eventSpy: d.EventSpy, eventDetail
   }
 
   if (typeof (eventSpy as any).then === 'function') {
-    throw new Error(`event spy must be a resolved value, not a promise, before it can be tested`);
+    throw new TypeError(`event spy must be a resolved value, not a promise, before it can be tested`);
   }
 
   if (!eventSpy.eventName) {
@@ -123,7 +123,7 @@ export function toHaveFirstReceivedEventDetail(eventSpy: d.EventSpy, eventDetail
 
   return {
     message: () => `expected event "${eventSpy.eventName}" detail to ${pass ? 'not ' : ''}equal`,
-    pass: pass,
+    pass,
   };
 }
 
@@ -139,7 +139,7 @@ export function toHaveLastReceivedEventDetail(eventSpy: d.EventSpy, eventDetail:
   }
 
   if (typeof (eventSpy as any).then === 'function') {
-    throw new Error(`event spy must be a resolved value, not a promise, before it can be tested`);
+    throw new TypeError(`event spy must be a resolved value, not a promise, before it can be tested`);
   }
 
   if (!eventSpy.eventName) {
@@ -156,7 +156,7 @@ export function toHaveLastReceivedEventDetail(eventSpy: d.EventSpy, eventDetail:
 
   return {
     message: () => `expected event "${eventSpy.eventName}" detail to ${pass ? 'not ' : ''}equal`,
-    pass: pass,
+    pass,
   };
 }
 
@@ -173,7 +173,7 @@ export function toHaveNthReceivedEventDetail(eventSpy: d.EventSpy, index: number
   }
 
   if (typeof (eventSpy as any).then === 'function') {
-    throw new Error(`event spy must be a resolved value, not a promise, before it can be tested`);
+    throw new TypeError(`event spy must be a resolved value, not a promise, before it can be tested`);
   }
 
   if (!eventSpy.eventName) {
@@ -196,6 +196,6 @@ export function toHaveNthReceivedEventDetail(eventSpy: d.EventSpy, index: number
 
   return {
     message: () => `expected event "${eventSpy.eventName}" detail to ${pass ? 'not ' : ''}equal`,
-    pass: pass,
+    pass,
   };
 }

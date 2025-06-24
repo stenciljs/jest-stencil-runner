@@ -1,21 +1,21 @@
+// @ts-expect-error - TODO: add types for this module
+import { resetPlatform, win } from '@stencil/core/internal/testing';
 /**
  * Jest environment for Stencil component testing.
  * This provides the basic browser-like environment needed for component tests.
  */
 import type { Config } from '@jest/types';
-// @ts-expect-error - TODO: add types for this module
-import { win, resetPlatform } from '@stencil/core/internal/testing';
 
 /**
  * Jest environment that provides the Stencil testing platform.
  * This sets up the proper DOM mocking and Stencil utilities.
  */
-export default class StencilEnvironment {
+export class StencilEnvironment {
   global: any;
-  
-  constructor(config: Config.ProjectConfig, context: any) {
+
+  constructor() {
     this.global = global;
-    
+
     // Initialize Stencil's testing platform
     this.setupStencilGlobals();
   }
@@ -23,7 +23,7 @@ export default class StencilEnvironment {
   private setupStencilGlobals() {
     // Initialize the Stencil platform
     resetPlatform();
-    
+
     // Set up globals from Stencil's mock DOM
     this.global.window = win as any;
     this.global.document = win.document as any;
@@ -43,22 +43,22 @@ export default class StencilEnvironment {
     this.global.history = win.history as any;
     this.global.navigator = win.navigator as any;
     this.global.fetch = win.fetch as any;
-    
+
     // Set up console methods
     this.global.console = console;
-    
+
     // Set up timing functions
     this.global.setTimeout = win.setTimeout.bind(win) as any;
     this.global.clearTimeout = win.clearTimeout.bind(win) as any;
     this.global.setInterval = win.setInterval.bind(win) as any;
     this.global.clearInterval = win.clearInterval.bind(win) as any;
-    
+
     // Set up URL and URLSearchParams
     this.global.URL = (win as any).URL;
     this.global.URLSearchParams = (win as any).URLSearchParams;
   }
 
-  async setup(): Promise<void> {
+  setup(): void {
     // Reset platform for each test
     resetPlatform();
   }
@@ -70,4 +70,4 @@ export default class StencilEnvironment {
   getVmContext(): any {
     return this.global;
   }
-} 
+}

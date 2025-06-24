@@ -1,5 +1,5 @@
-export const enum MEMBER_FLAGS {
-  String = 1 << 0,
+export enum MEMBER_FLAGS {
+  String = 1,
   Number = 1 << 1,
   Boolean = 1 << 2,
   Any = 1 << 3,
@@ -21,14 +21,14 @@ export const enum MEMBER_FLAGS {
   PropLike = Prop | State,
 }
 
-export const enum EVENT_FLAGS {
-  Cancellable = 1 << 0,
+export enum EVENT_FLAGS {
+  Cancellable = 1,
   Composed = 1 << 1,
   Bubbles = 1 << 2,
 }
 
-export const enum LISTENER_FLAGS {
-  Passive = 1 << 0,
+export enum LISTENER_FLAGS {
+  Passive = 1,
   Capture = 1 << 1,
 
   TargetDocument = 1 << 2,
@@ -41,8 +41,8 @@ export const enum LISTENER_FLAGS {
   TargetParent = 1 << 5,
 }
 
-export const enum HOST_FLAGS {
-  hasConnected = 1 << 0,
+export enum HOST_FLAGS {
+  hasConnected = 1,
   hasRendered = 1 << 1,
   isWaitingForChildren = 1 << 2,
   isConstructingInstance = 1 << 3,
@@ -64,12 +64,12 @@ export const enum HOST_FLAGS {
  * These flags should only be used in conjunction with {@link ComponentRuntimeMeta#$flags$}.
  * They should _not_ be used for calculations against other fields/numbers
  */
-export const enum CMP_FLAGS {
+export enum CMP_FLAGS {
   /**
    * Used to determine if a component is using the shadow DOM.
    * e.g. `shadow: true | {}` is set on the `@Component()` decorator
    */
-  shadowDomEncapsulation = 1 << 0,
+  shadowDomEncapsulation = 1,
   /**
    * Used to determine if a component is using scoped stylesheets
    * e.g. `scoped: true` is set on the `@Component()` decorator
@@ -245,7 +245,7 @@ export const GENERATED_DTS = 'components.d.ts';
  * mock-doc bundle in the runtime. See
  * https://github.com/stenciljs/core/pull/5705 for more details.
  */
-export const enum NODE_TYPES {
+export enum NODE_TYPES {
   ELEMENT_NODE = 1,
   ATTRIBUTE_NODE = 2,
   TEXT_NODE = 3,
@@ -269,6 +269,7 @@ export enum PrimitiveType {
   Null = 'null',
   String = 'string',
   Number = 'number',
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   SpecialNumber = 'number',
   Boolean = 'boolean',
   BigInt = 'bigint',

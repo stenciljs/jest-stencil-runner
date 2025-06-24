@@ -122,7 +122,7 @@ describe('form-input', () => {
         'disabled': '',
         'minlength': '5',
         'maxlength': '20',
-        'data-valid': ''
+        'data-valid': '',
       });
     });
 
@@ -312,9 +312,9 @@ describe('form-input', () => {
         expect.objectContaining({
           detail: {
             value: 'Hello',
-            isValid: true
-          }
-        })
+            isValid: true,
+          },
+        }),
       );
     });
 
@@ -334,8 +334,8 @@ describe('form-input', () => {
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith(
         expect.objectContaining({
-          detail: 'Initial'
-        })
+          detail: 'Initial',
+        }),
       );
     });
 
@@ -360,9 +360,9 @@ describe('form-input', () => {
         expect.objectContaining({
           detail: {
             value: 'invalid-email',
-            isValid: false
-          }
-        })
+            isValid: false,
+          },
+        }),
       );
     });
 

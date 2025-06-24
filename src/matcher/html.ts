@@ -1,6 +1,6 @@
-import type { expect as JestExpect } from '@jest/globals';
-import * as d from '@stencil/core/internal';
 import { NODE_TYPES, parseHtmlToFragment, serializeNodeToHtml } from '@stencil/core/mock-doc';
+import type { expect as JestExpect } from '@jest/globals';
+import type * as d from '@stencil/core/internal';
 
 declare const expect: typeof JestExpect;
 
@@ -41,7 +41,7 @@ function compareHtml(
   }
 
   if (typeof (input as any).then === 'function') {
-    throw new Error(`element must be a resolved value, not a promise, before it can be tested`);
+    throw new TypeError(`element must be a resolved value, not a promise, before it can be tested`);
   }
 
   // Common serialization options for consistent formatting
@@ -75,7 +75,7 @@ function compareHtml(
       outerHtml: false, // Parsed fragments don't need outer HTML
     });
   } else {
-    throw new Error(`expect toEqualHtml() value should be an element, shadow root or string.`);
+    throw new TypeError(`expect toEqualHtml() value should be an element, shadow root or string.`);
   }
 
   const parseB = parseHtmlToFragment(shouldEqual);
@@ -109,21 +109,17 @@ function prettifyHtml(html: string): string {
   const lines: string[] = [];
   let indentLevel = 0;
   const indentSize = 2;
-  
+
   // Clean up the HTML first
-  html = html
-    .replace(/\r\n/g, '\n')
-    .replace(/\r/g, '\n')
-    .replace(/>\s*</g, '><')
-    .trim();
-  
+  html = html.replaceAll('\r\n', '\n').replaceAll('\r', '\n').replaceAll(/>\s*</g, '><').trim();
+
   // Split on tag boundaries
   const parts = html.split(/(<[^>]*>)/);
-  
-  for (let i = 0; i < parts.length; i++) {
-    const part = parts[i].trim();
+
+  for (const part_ of parts) {
+    const part = part_.trim();
     if (!part) continue;
-    
+
     if (part.startsWith('<')) {
       // This is a tag
       if (part.startsWith('</')) {
@@ -136,29 +132,42 @@ function prettifyHtml(html: string): string {
       } else {
         // Opening tag
         lines.push(' '.repeat(indentLevel * indentSize) + part);
-        
+
         // Check if this is a void element that doesn't need closing
-        const tagName = part.match(/<([a-zA-Z][a-zA-Z0-9-]*)/)?.[1]?.toLowerCase();
-        const voidElements = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
-        
+        const tagName = part.match(/<([a-z][a-z0-9-]*)/i)?.[1]?.toLowerCase();
+        const voidElements = [
+          'area',
+          'base',
+          'br',
+          'col',
+          'embed',
+          'hr',
+          'img',
+          'input',
+          'link',
+          'meta',
+          'param',
+          'source',
+          'track',
+          'wbr',
+        ];
+
         if (!voidElements.includes(tagName || '')) {
           indentLevel++;
         }
       }
-    } else {
+    } else if (part.length > 0) {
       // This is text content
-      if (part.length > 0) {
-        lines.push(' '.repeat(indentLevel * indentSize) + part);
-      }
+      lines.push(' '.repeat(indentLevel * indentSize) + part);
     }
   }
-  
+
   return lines.join('\n');
 }
 
 function getSpecOptions(el: HTMLElement): Partial<d.NewSpecPageOptions> {
   if (el && el.ownerDocument && el.ownerDocument.defaultView) {
-    return (el.ownerDocument.defaultView as any)['__stencil_spec_options'] || {};
+    return (el.ownerDocument.defaultView as any).__stencil_spec_options || {};
   }
 
   return {};
