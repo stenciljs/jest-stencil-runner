@@ -2,27 +2,7 @@
   "name": "example",
   "version": "0.0.1",
   "description": "Stencil Component Starter",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.js",
-  "types": "dist/types/index.d.ts",
-  "collection": "dist/collection/collection-manifest.json",
-  "collection:main": "dist/collection/index.js",
-  "unpkg": "dist/example/example.esm.js",
-  "exports": {
-    ".": {
-      "import": "./dist/example/example.esm.js",
-      "require": "./dist/example/example.cjs.js"
-    },
-    "./my-component": {
-      "import": "./dist/components/my-component.js",
-      "types": "./dist/components/my-component.d.ts"
-    },
-    "./loader": {
-      "import": "./loader/index.js",
-      "require": "./loader/index.cjs",
-      "types": "./loader/index.d.ts"
-    }
-  },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/stenciljs/component-starter.git"
@@ -31,6 +11,27 @@
     "dist/",
     "loader/"
   ],
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "exports": {
+    ".": {
+      "require": "./dist/example/example.cjs.js",
+      "import": "./dist/example/example.esm.js"
+    },
+    "./my-component": {
+      "types": "./dist/components/my-component.d.ts",
+      "import": "./dist/components/my-component.js"
+    },
+    "./loader": {
+      "types": "./loader/index.d.ts",
+      "require": "./loader/index.cjs",
+      "import": "./loader/index.js"
+    }
+  },
+  "unpkg": "dist/example/example.esm.js",
   "scripts": {
     "build": "stencil build",
     "start": "stencil build --dev --watch --serve",
@@ -47,6 +48,5 @@
     "jest-stencil-runner": "workspace:*",
     "puppeteer": "^24.3.0",
     "ts-jest": "^29.4.0"
-  },
-  "license": "MIT"
+  }
 }

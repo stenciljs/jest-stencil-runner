@@ -1,8 +1,8 @@
-import { Component, Prop, h } from '@stencil/core';
+import { Component, h, Prop } from '@stencil/core';
 
 @Component({
   tag: 'status-card',
-  styleUrl: 'status-card.css',
+  styleUrl: './status-card.css',
   shadow: true,
 })
 export class StatusCard {

@@ -342,9 +342,9 @@ describe('interactive-button', () => {
       // Create EventSpy-compatible object for testing custom matchers
       const eventSpy = {
         eventName: 'buttonClick',
-        events: events,
+        events,
         firstEvent: events[0],
-        lastEvent: events[events.length - 1],
+        lastEvent: events.at(-1),
         length: events.length,
       };
 
@@ -398,7 +398,7 @@ describe('interactive-button', () => {
         eventName: 'loadingChange',
         events: loadingEvents,
         firstEvent: loadingEvents[0],
-        lastEvent: loadingEvents[loadingEvents.length - 1],
+        lastEvent: loadingEvents.at(-1),
         length: loadingEvents.length,
       };
 
@@ -437,9 +437,9 @@ describe('interactive-button', () => {
       // Create EventSpy for empty events
       const emptyEventSpy = {
         eventName: 'buttonClick',
-        events: events,
+        events,
         firstEvent: events[0],
-        lastEvent: events[events.length - 1],
+        lastEvent: events.at(-1),
         length: events.length,
       };
 

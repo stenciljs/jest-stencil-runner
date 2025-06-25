@@ -1,8 +1,8 @@
-import { Component, Prop, State, Event, EventEmitter, h } from '@stencil/core';
+import { Component, Event, h, Prop, State, type EventEmitter } from '@stencil/core';
 
 @Component({
   tag: 'form-input',
-  styleUrl: 'form-input.css',
+  styleUrl: './form-input.css',
   shadow: true,
 })
 export class FormInput {
@@ -107,7 +107,7 @@ export class FormInput {
   }
 
   private isValidEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@][^\s.@]*\.[^\s@]+$/;
     return emailRegex.test(email);
   }
 

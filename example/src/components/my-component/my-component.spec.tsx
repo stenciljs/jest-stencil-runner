@@ -1,4 +1,5 @@
 import { h } from '@stencil/core';
+
 import { newSpecPage } from 'jest-stencil-runner';
 import { MyComponent } from './my-component';
 

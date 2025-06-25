@@ -1,8 +1,8 @@
-import { Component, Prop, State, Event, EventEmitter, h } from '@stencil/core';
+import { Component, Event, h, Prop, State, type EventEmitter } from '@stencil/core';
 
 @Component({
   tag: 'interactive-button',
-  styleUrl: 'interactive-button.css',
+  styleUrl: './interactive-button.css',
   shadow: true,
 })
 export class InteractiveButton {
@@ -69,7 +69,7 @@ export class InteractiveButton {
     });
   };
 
-  async simulateLoading() {
+  simulateLoading() {
     this.loading = true;
     this.loadingChange.emit(true);
 
