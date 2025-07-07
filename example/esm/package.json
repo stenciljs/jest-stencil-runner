@@ -1,7 +1,8 @@
 {
-  "name": "example",
+  "name": "example-esm",
   "version": "0.0.1",
   "description": "Stencil Component Starter",
+  "type": "module",
   "license": "MIT",
   "repository": {
     "type": "git",

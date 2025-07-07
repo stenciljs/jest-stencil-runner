@@ -1,6 +1,9 @@
 import path from 'node:path';
+import url from 'node:url';
+
 import type { Config } from '@jest/types';
 
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const moduleExtensions = ['ts', 'tsx', 'js', 'mjs', 'jsx'];
 const moduleExtensionRegexp = `(${moduleExtensions.join('|')})`;
 

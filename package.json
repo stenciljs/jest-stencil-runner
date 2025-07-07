@@ -53,7 +53,9 @@
     "prettier.dry-run": "npm run prettier.base -- --list-different",
     "test": "run-s test:*",
     "test:lint": "eslint src --ext .ts,.tsx",
-    "test:unit": "pnpm --filter example test"
+    "test:unit": "run-s test:unit:*",
+    "test:unit:cjs": "pnpm --filter example-cjs test",
+    "test:unit:esm": "pnpm --filter example-esm test"
   },
   "peerDependencies": {
     "@stencil/core": "^4.35.1",

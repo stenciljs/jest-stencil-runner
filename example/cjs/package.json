@@ -1,0 +1,53 @@
+{
+  "name": "example-cjs",
+  "version": "0.0.1",
+  "description": "Stencil Component Starter",
+  "type": "commonjs",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stenciljs/component-starter.git"
+  },
+  "files": [
+    "dist/",
+    "loader/"
+  ],
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "exports": {
+    ".": {
+      "require": "./dist/example/example.cjs.js",
+      "import": "./dist/example/example.esm.js"
+    },
+    "./my-component": {
+      "types": "./dist/components/my-component.d.ts",
+      "import": "./dist/components/my-component.js"
+    },
+    "./loader": {
+      "types": "./loader/index.d.ts",
+      "require": "./loader/index.cjs",
+      "import": "./loader/index.js"
+    }
+  },
+  "unpkg": "dist/example/example.esm.js",
+  "scripts": {
+    "build": "stencil build",
+    "start": "stencil build --dev --watch --serve",
+    "test": "jest",
+    "test.watch": "jest --watchAll",
+    "generate": "stencil generate"
+  },
+  "devDependencies": {
+    "@stencil/core": "^4.27.1",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22.13.5",
+    "jest": "^30.0.2",
+    "jest-cli": "^30.0.2",
+    "jest-stencil-runner": "workspace:*",
+    "puppeteer": "^24.3.0",
+    "ts-jest": "^29.4.0"
+  }
+}

@@ -61,7 +61,7 @@ importers:
         specifier: ^4.20.3
         version: 4.20.3
 
-  example:
+  example/cjs:
     devDependencies:
       '@stencil/core':
         specifier: ^4.27.1
@@ -80,7 +80,34 @@ importers:
         version: 30.0.2(@types/node@22.15.32)
       jest-stencil-runner:
         specifier: workspace:*
-        version: link:..
+        version: link:../..
+      puppeteer:
+        specifier: ^24.3.0
+        version: 24.10.2(typescript@5.8.3)
+      ts-jest:
+        specifier: ^29.4.0
+        version: 29.4.0(@babel/core@7.27.4)(@jest/transform@30.0.2)(@jest/types@30.0.1)(babel-jest@30.0.2(@babel/core@7.27.4))(jest-util@30.0.2)(jest@30.0.2(@types/node@22.15.32))(typescript@5.8.3)
+
+  example/esm:
+    devDependencies:
+      '@stencil/core':
+        specifier: ^4.27.1
+        version: 4.35.1
+      '@types/jest':
+        specifier: ^30.0.0
+        version: 30.0.0
+      '@types/node':
+        specifier: ^22.13.5
+        version: 22.15.32
+      jest:
+        specifier: ^30.0.2
+        version: 30.0.2(@types/node@22.15.32)
+      jest-cli:
+        specifier: ^30.0.2
+        version: 30.0.2(@types/node@22.15.32)
+      jest-stencil-runner:
+        specifier: workspace:*
+        version: link:../..
       puppeteer:
         specifier: ^24.3.0
         version: 24.10.2(typescript@5.8.3)
