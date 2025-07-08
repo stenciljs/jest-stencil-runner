@@ -1,8 +1,8 @@
-## **0.0.7**&emsp;<sub><sup>2025-07-07 ([281347c...c3b78f7](https://github.com/stenciljs/jest-stencil-runner/compare/281347c58cba46ff76041116d91d83af821eb22a...c3b78f7577ba01202750ae3bf3e647c8bc262fb8?diff=split))</sup></sub>
+## **0.0.8**&emsp;<sub><sup>2025-07-08 ([b0e2b65...f9fb265](https://github.com/stenciljs/jest-stencil-runner/compare/b0e2b65b2b6443a9b6ceb1ad948cdecb175edda1...f9fb2656630fe1e8f67cf2f890634a3fa05d871e?diff=split))</sup></sub>
 
 ### 🐛 Bug Fixes
 
-- support for ESM ([281347c](https://github.com/stenciljs/jest-stencil-runner/commit/281347c58cba46ff76041116d91d83af821eb22a))
+- don't import from @stencil/core/internal/testing ([b0e2b65](https://github.com/stenciljs/jest-stencil-runner/commit/b0e2b65b2b6443a9b6ceb1ad948cdecb175edda1))
 
 <br>
 
