@@ -8,10 +8,14 @@ import type {
   MockWindow,
 } from '@stencil/core/mock-doc';
 
-type MockStorage = ReturnType<typeof mockWindow>['localStorage'];
-type MockEvent = ReturnType<typeof mockWindow>['Event'];
-type MockTimeout = ReturnType<typeof mockWindow>['setTimeout'];
-type MockSetInterval = ReturnType<typeof mockWindow>['setInterval'];
+interface MockStorage {
+  localStorage: Storage;
+  sessionStorage: Storage;
+}
+
+interface MockEvent {
+  Event: Event;
+}
 
 /**
  * Extended global object that includes both Node.js globals and DOM APIs
@@ -68,7 +72,7 @@ export class StencilEnvironment {
     this.global.document = win.document as unknown as MockDocument;
     this.global.HTMLElement = win.HTMLElement;
     this.global.customElements = win.customElements;
-    this.global.Event = win.Event;
+    this.global.Event = win.Event as unknown as MockEvent;
     this.global.CustomEvent = win.CustomEvent;
     this.global.MouseEvent = win.MouseEvent;
     this.global.KeyboardEvent = win.KeyboardEvent;
@@ -76,8 +80,8 @@ export class StencilEnvironment {
     this.global.removeEventListener = win.removeEventListener.bind(win);
     this.global.requestAnimationFrame = win.requestAnimationFrame.bind(win);
     this.global.cancelAnimationFrame = win.cancelAnimationFrame.bind(win);
-    this.global.localStorage = win.localStorage;
-    this.global.sessionStorage = win.sessionStorage;
+    this.global.localStorage = win.localStorage as unknown as MockStorage;
+    this.global.sessionStorage = win.sessionStorage as unknown as MockStorage;
     this.global.location = win.location;
     this.global.history = win.history;
     this.global.navigator = win.navigator;
@@ -87,9 +91,9 @@ export class StencilEnvironment {
     this.global.console = console;
 
     // Set up timing functions
-    this.global.setTimeout = win.setTimeout.bind(win) as MockTimeout;
+    this.global.setTimeout = win.setTimeout.bind(win) as unknown as typeof setTimeout;
     this.global.clearTimeout = win.clearTimeout.bind(win);
-    this.global.setInterval = win.setInterval.bind(win) as MockSetInterval;
+    this.global.setInterval = win.setInterval.bind(win) as unknown as typeof setInterval;
     this.global.clearInterval = win.clearInterval.bind(win);
 
     // Set up URL
