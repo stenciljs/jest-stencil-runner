@@ -1,6 +1,6 @@
 {
   "name": "jest-stencil-runner",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "packageManager": "pnpm@10.12.3",
   "description": "Run tests on Stencil components using Jest.",
   "license": "MIT",
