@@ -7,6 +7,11 @@ export interface SpecPage {
   root?: Element;
 
   /**
+   * Similar to `root`, except returns the component instance.
+   */
+  rootInstance?: any;
+
+  /**
    * The document created for the test.
    */
   doc: Document;
