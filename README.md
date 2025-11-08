@@ -26,7 +26,7 @@ npm install --save-dev jest-stencil-runner
 Create a `jest.config.js` file in your project root:
 
 ```javascript
-const { createJestStencilPreset } = require('jest-stencil-runner/preset');
+const { createJestStencilPreset } = require('jest-stencil-runner');
 
 module.exports = createJestStencilPreset({
   rootDir: __dirname,
@@ -374,7 +374,7 @@ The runner includes full TypeScript definitions. Make sure your `tsconfig.json` 
 When using `createJestStencilPreset()`, you can pass additional options:
 
 ```javascript
-const { createJestStencilPreset } = require('jest-stencil-runner/preset');
+const { createJestStencilPreset } = require('jest-stencil-runner');
 
 module.exports = createJestStencilPreset({
   rootDir: __dirname,
