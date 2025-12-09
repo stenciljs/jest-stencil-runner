@@ -119,6 +119,16 @@ export enum CMP_FLAGS {
    * to have its styles scoped during SSR as opposed to using DSD.
    */
   shadowNeedsScopedCss = 1 << 7,
+
+  /**
+   * Determines if a component has a render function.
+   */
+  hasRenderFn = 1 << 8,
+
+  /**
+   * Determines if a component uses modern class property declarations.
+   */
+  hasModernPropertyDecls = 1 << 9,
 }
 
 /**
