@@ -90,6 +90,8 @@ jobs:
 
       - name: Publish to npm
         run: npm publish --tag dev --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ''
 
   release-prod:
     if: inputs.devRelease == 'no'
@@ -136,6 +138,8 @@ jobs:
 
       - name: Publish to npm
         run: npm publish --tag latest --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ''
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
