@@ -130,7 +130,7 @@ jobs:
       - name: Update npm for trusted publishing
         run: npm install -g npm@11.6.0
 
-      - name: 🔧 Configure registries
+      - name: Configure registries
         run: |
           pnpm config set registry https://registry.npmjs.org
           npm config set registry https://registry.npmjs.org
