@@ -28,6 +28,9 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
+      
+      - name: Setup environment
+        run: corepack enable
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -64,11 +67,18 @@ jobs:
           name: dist
           path: dist/
 
+      - name: Setup environment
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: 24.x
           registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+      
+      - name: Update npm for trusted publishing
+        run: npm install -g npm@11.6.0
 
       - name: Generate dev version
         id: version
