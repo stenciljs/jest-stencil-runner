@@ -21,46 +21,39 @@ on:
           - 'yes'
           - 'no'
 
-permissions:
-  contents: read
-  id-token: write
-
 jobs:
-  build_stencil_jest_runner:
+  build:
     name: Build
-    uses: ./.github/workflows/build.yml
-
-  get_dev_version:
-    if: inputs.devRelease == 'yes'
-    name: Get Dev Build Version
     runs-on: ubuntu-latest
-    outputs:
-      dev-version: ${{ steps.generate-dev-version.outputs.DEV_VERSION }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Generate Dev Version
-        id: generate-dev-version
-        run: |
-          PKG_JSON_VERSION=$(cat package.json | jq -r '.version')
-          GIT_HASH=$(git rev-parse --short HEAD)
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
 
-          # A unique string to publish Stencil Jest Runner under
-          # e.g. "2.1.0-dev.1677185104.7c87e34"
-          DEV_VERSION=$PKG_JSON_VERSION-dev.$(date +"%s").$GIT_HASH
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: 'pnpm'
 
-          echo "Using version $DEV_VERSION"
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-          # store a key/value pair in GITHUB_OUTPUT
-          # e.g. "DEV_VERSION=2.1.0-dev.1677185104.7c87e34"
-          echo "DEV_VERSION=$DEV_VERSION" >> $GITHUB_OUTPUT
-        shell: bash
+      - name: Build
+        run: pnpm run build
 
-  dev_release_stencil_jest_runner:
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  release-dev:
     if: inputs.devRelease == 'yes'
     name: Publish Dev Build
-    needs: [build_stencil_jest_runner, get_dev_version]
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -68,19 +61,40 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Download Build Archive
-        uses: stenciljs/.github/actions/download-archive@main
-
-      - uses: stenciljs/.github/actions/publish-npm@main
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
         with:
-          tag: dev
-          skip-setup: 'yes'
-          version: ${{ needs.get_dev_version.outputs.dev-version }}
+          name: dist
+          path: dist/
 
-  prod_release_stencil_jest_runner:
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Generate dev version
+        id: version
+        run: |
+          PKG_VERSION=$(jq -r '.version' package.json)
+          GIT_HASH=$(git rev-parse --short HEAD)
+          DEV_VERSION="${PKG_VERSION}-dev.$(date +%s).${GIT_HASH}"
+          echo "version=${DEV_VERSION}" >> $GITHUB_OUTPUT
+          echo "Publishing dev version: ${DEV_VERSION}"
+
+      - name: Set dev version
+        run: npm version ${{ steps.version.outputs.version }} --no-git-tag-version
+
+      - name: Publish to npm
+        run: npm publish --tag dev --provenance --access public
+
+  release-prod:
     if: inputs.devRelease == 'no'
-    name: Publish Stencil Jest Runner
-    needs: [build_stencil_jest_runner]
+    name: Publish Production Release
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -88,13 +102,44 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-
-      - name: Download Build Archive
-        uses: stenciljs/.github/actions/download-archive@main
-
-      - uses: stenciljs/.github/actions/publish-npm@main
         with:
-          tag: latest
-          skip-setup: 'yes'
-          version: ${{ inputs.releaseType }}
-          github-token: ${{ secrets.GH_ADMIN_PAT }}
+          fetch-depth: 0
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump version
+        id: version
+        run: |
+          npm version ${{ inputs.releaseType }} -m "v%s"
+          echo "version=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+
+      - name: Push version commit and tag
+        run: git push --follow-tags
+
+      - name: Publish to npm
+        run: npm publish --tag latest --provenance --access public
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          generate_release_notes: true
