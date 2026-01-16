@@ -89,9 +89,9 @@ jobs:
         run: npm version ${{ steps.version.outputs.version }} --no-git-tag-version
 
       - name: Publish to npm
-        run: npm publish --tag dev --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ''
+        run: |
+          echo "registry=https://registry.npmjs.org/" > ~/.npmrc
+          npm publish --tag dev --provenance --access public
 
   release-prod:
     if: inputs.devRelease == 'no'
@@ -137,9 +137,9 @@ jobs:
         run: git push --follow-tags
 
       - name: Publish to npm
-        run: npm publish --tag latest --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ''
+        run: |
+          echo "registry=https://registry.npmjs.org/" > ~/.npmrc
+          npm publish --tag latest --provenance --access public
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
