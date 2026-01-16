@@ -76,7 +76,6 @@ jobs:
           tag: dev
           skip-setup: 'yes'
           version: ${{ needs.get_dev_version.outputs.dev-version }}
-          token: ${{ secrets.NPM_PAT_STENCIL_BOT }}
 
   prod_release_stencil_jest_runner:
     if: inputs.devRelease == 'no'
@@ -98,5 +97,4 @@ jobs:
           tag: latest
           skip-setup: 'yes'
           version: ${{ inputs.releaseType }}
-          token: ${{ secrets.NPM_PAT_STENCIL_BOT }}
           github-token: ${{ secrets.GH_ADMIN_PAT }}
