@@ -23,7 +23,7 @@ export function createJestStencilPreset(options: Config.InitialOptions = {}): Co
     testTimeout: 30000,
     snapshotSerializers: [path.resolve(__dirname, 'snapshot.js')],
     ...options,
-    setupFilesAfterEnv: ['jest-stencil-runner/setup', ...options.setupFilesAfterEnv],
+    setupFilesAfterEnv: ['jest-stencil-runner/setup', ...(options.setupFilesAfterEnv ?? [] )],
     moduleNameMapper: {
       '^@stencil/core/testing$': 'jest-stencil-runner',
       '^@stencil/core$': '@stencil/core',
