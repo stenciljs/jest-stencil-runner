@@ -14,7 +14,6 @@ export function createJestStencilPreset(options: Config.InitialOptions = {}): Co
   const preset: Config.InitialOptions = {
     testEnvironment: 'node',
     moduleFileExtensions: [...moduleExtensions, 'json', 'd.ts'],
-    setupFilesAfterEnv: ['jest-stencil-runner/setup'],
     testPathIgnorePatterns: ['/.cache', '/.stencil', '/.vscode', '/dist', '/node_modules', '/www'],
     transform: {
       '^.+\\.(ts|tsx|jsx|js|mjs|css)(\\?.*)?$': path.resolve(__dirname, 'preprocessor.js'),
@@ -24,6 +23,7 @@ export function createJestStencilPreset(options: Config.InitialOptions = {}): Co
     testTimeout: 30000,
     snapshotSerializers: [path.resolve(__dirname, 'snapshot.js')],
     ...options,
+    setupFilesAfterEnv: ['jest-stencil-runner/setup', ...(options.setupFilesAfterEnv ?? [] )],
     moduleNameMapper: {
       '^@stencil/core/testing$': 'jest-stencil-runner',
       '^@stencil/core$': '@stencil/core',
