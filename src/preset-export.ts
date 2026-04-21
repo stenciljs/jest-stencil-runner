@@ -5,3 +5,4 @@ import type { Config } from '@jest/types';
 const preset: Config.InitialOptions = createJestStencilPreset();
 // eslint-disable-next-line import/no-default-export
 export default preset;
+export { createJestStencilPreset };

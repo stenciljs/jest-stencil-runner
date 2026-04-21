@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { createJestStencilPreset } = require('jest-stencil-runner');
+const { createJestStencilPreset } = require('jest-stencil-runner/preset');
 
 // Resolve symlinks to their actual paths
 const srcPath = path.resolve(__dirname, 'src');
