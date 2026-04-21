@@ -26,21 +26,17 @@ npm install --save-dev jest-stencil-runner
 Create a `jest.config.js` file in your project root:
 
 ```javascript
-const { createJestStencilPreset } = require('jest-stencil-runner');
+const { createJestStencilPreset } = require('jest-stencil-runner/preset');
 
 module.exports = createJestStencilPreset({
   rootDir: __dirname,
   // Add any additional Jest configuration here
-  collectCoverageFrom: [
-    'src/**/*.{ts,tsx}',
-    '!src/**/*.d.ts',
-  ],
-  testMatch: [
-    '**/__tests__/**/*.(ts|tsx|js)',
-    '**/*.(test|spec).(ts|tsx|js)'
-  ]
+  collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts'],
+  testMatch: ['**/__tests__/**/*.(ts|tsx|js)', '**/*.(test|spec).(ts|tsx|js)'],
 });
 ```
+
+Import `createJestStencilPreset` from the `jest-stencil-runner/preset` sub-path in your jest config, not from the package root. The sub-path entry is free of Stencil runtime side effects, so Jest's host process does not capture DOM globals from Stencil's mock-doc and replay them into test workers. Importing from the root works but leaks DOM globals between the host and test workers.
 
 ## Usage
 
@@ -99,8 +95,8 @@ describe('my-button', () => {
 
     expect(clickSpy).toHaveBeenCalledWith(
       expect.objectContaining({
-        detail: { clicked: true, timestamp: expect.any(Number) }
-      })
+        detail: { clicked: true, timestamp: expect.any(Number) },
+      }),
     );
 
     // Test property updates
@@ -120,6 +116,7 @@ describe('my-button', () => {
 Creates a new spec page for unit testing Stencil components.
 
 **Parameters:**
+
 - `options.components` - Array of component classes to register
 - `options.html` - Initial HTML content for the page
 - `options.template` - Function that returns JSX template
@@ -128,6 +125,7 @@ Creates a new spec page for unit testing Stencil components.
 **Returns:** `Promise<SpecPage>`
 
 **SpecPage Methods:**
+
 - `setContent(html: string)` - Set the page HTML content
 - `waitForChanges()` - Wait for component re-renders
 - `root` - The root element of the component
@@ -206,10 +204,10 @@ Checks multiple attributes and their values at once:
 
 ```typescript
 expect(element).toEqualAttributes({
-  'role': 'button',
+  role: 'button',
   'aria-label': 'Submit form',
   'data-testid': 'submit-btn',
-  'disabled': '' // Boolean attributes have empty string values
+  disabled: '', // Boolean attributes have empty string values
 });
 ```
 
@@ -254,8 +252,10 @@ Checks if an event has been received at least once:
 ```typescript
 const eventSpy = {
   eventName: 'buttonClick',
-  events: [/* event objects */],
-  length: 1
+  events: [
+    /* event objects */
+  ],
+  length: 1,
 };
 
 expect(eventSpy).toHaveReceivedEvent();
@@ -277,7 +277,7 @@ Checks if the last received event has the expected detail data:
 ```typescript
 expect(eventSpy).toHaveReceivedEventDetail({
   value: 'test',
-  timestamp: expect.any(Number)
+  timestamp: expect.any(Number),
 });
 ```
 
@@ -288,7 +288,7 @@ Checks if the first received event has the expected detail data:
 ```typescript
 expect(eventSpy).toHaveFirstReceivedEventDetail({
   count: 1,
-  action: 'start'
+  action: 'start',
 });
 ```
 
@@ -299,7 +299,7 @@ Checks if the last received event has the expected detail data:
 ```typescript
 expect(eventSpy).toHaveLastReceivedEventDetail({
   count: 5,
-  action: 'complete'
+  action: 'complete',
 });
 ```
 
@@ -343,7 +343,7 @@ describe('button events', () => {
       events: events,
       firstEvent: events[0],
       lastEvent: events[events.length - 1],
-      length: events.length
+      length: events.length,
     };
 
     // Test with EventSpy matchers
@@ -374,16 +374,16 @@ The runner includes full TypeScript definitions. Make sure your `tsconfig.json` 
 When using `createJestStencilPreset()`, you can pass additional options:
 
 ```javascript
-const { createJestStencilPreset } = require('jest-stencil-runner');
+const { createJestStencilPreset } = require('jest-stencil-runner/preset');
 
 module.exports = createJestStencilPreset({
   rootDir: __dirname,
-  
+
   // Standard Jest options
   collectCoverageFrom: ['src/**/*.{ts,tsx}'],
   coverageDirectory: 'coverage',
   testEnvironment: 'jest-stencil-runner/environment',
-  
+
   // Stencil-specific options
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   testMatch: ['**/*.(test|spec).(ts|tsx|js)'],
@@ -404,7 +404,7 @@ describe('my-button', () => {
       components: [MyButton],
       html: `<my-button variant="primary" size="large">Click me</my-button>`,
     });
-    
+
     expect(page.root).toHaveClass('btn-primary');
     expect(page.root).toHaveClass('btn-large');
   });
@@ -420,14 +420,14 @@ describe('my-button events', () => {
       components: [MyButton],
       html: `<my-button>Click me</my-button>`,
     });
-    
+
     const clickSpy = jest.fn();
     page.root.addEventListener('myClick', clickSpy);
-    
+
     // Trigger click
     page.root.click();
     await page.waitForChanges();
-    
+
     expect(clickSpy).toHaveBeenCalled();
   });
 });
