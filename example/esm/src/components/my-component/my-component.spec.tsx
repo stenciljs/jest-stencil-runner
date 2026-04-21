@@ -18,14 +18,14 @@ describe('my-component', () => {
       html: `<my-component first="Stencil" middle="'Don't call me a framework'" last="JS"></my-component>`,
     });
     expect(root).toMatchInlineSnapshot(`
-<my-component first="Stencil" middle="'Don't call me a framework'" last="JS">
-  <template shadowrootmode="open">
-    <div>
-      Hello, World! I'm Stencil 'Don't call me a framework' JS
-    </div>
-  </template>
-</my-component>
-`);
+      <my-component first="Stencil" last="JS" middle="'Don't call me a framework'">
+        <template shadowrootmode="open">
+          <div>
+            Hello, World! I'm Stencil 'Don't call me a framework' JS
+          </div>
+        </template>
+      </my-component>
+    `);
   });
 
   it('can render the component with a custom template', async () => {
@@ -34,14 +34,14 @@ describe('my-component', () => {
       template: () => <my-component first="Stencil" middle="'Don't call me a framework'" last="JS"></my-component>,
     });
     expect(root).toMatchInlineSnapshot(`
-<my-component>
-  <template shadowrootmode="open">
-    <div>
-      Hello, World! I'm Stencil 'Don't call me a framework' JS
-    </div>
-  </template>
-</my-component>
-`);
+      <my-component>
+        <template shadowrootmode="open">
+          <div>
+            Hello, World! I'm Stencil 'Don't call me a framework' JS
+          </div>
+        </template>
+      </my-component>
+    `);
   });
 
   describe('HTML Matchers', () => {
